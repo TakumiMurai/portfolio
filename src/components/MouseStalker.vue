@@ -1,5 +1,5 @@
-<script setup lang="ts">
-import { ref } from 'vue'
+<script setup>
+import { ref, onMounted, onBeforeUnmount } from 'vue'
 
 const mouseX = ref(0)
 const mouseY = ref(0)
@@ -8,16 +8,20 @@ const positionY = ref(0)
 const opacityA = ref(0)
 const opacityB = ref(0)
 
-const onMouseMove = () => {
+const onMouseMove = (event) => {
   console.log('mousemove')
-  // mouseX.value = event.pageX
-  // mouseY.value = event.pageY
+  mouseX.value = event.pageX
+  mouseY.value = event.pageY
 }
+
+onMounted(() => window.addEventListener('mousemove', onMouseMove(event)))
+
+onBeforeUnmount(() => window.removeEventListener('mousemove', onMouseMove(event)))
 </script>
 
 <template>
   <div>
-    <div class="Cursor" @mousemove="onMouseMove()"></div>
+    <div class="Cursor" :style="{ top: mouseY + 'px', left: mouseX + 'px' }"></div>
     <div class="stalker"></div>
   </div>
 </template>
@@ -37,8 +41,6 @@ body a:hover {
 
 .Cursor {
   position: relative; /* 最初はページの左上に配置されるようにする */
-  top: v-bind(mouseX);
-  left: v-bind(mouseY);
   width: 8px;
   height: 8px;
   margin: -4px 0 0 -4px; /* カーソルの焦点を中央に合わせる */
@@ -59,5 +61,8 @@ body a:hover {
   opacity: 0; /*開いた瞬間非表示*/
   transition: transform 0.1s;
   pointer-events: none; /*マウス直下に常にstalker要素がくるのでホバー要素が働かなくなる。noneにすることでstalkerを無視する*/
+  transform: translate(0, 0);
+  transition: transform 0.2s; /*ちょっと遅れてついてくるように*/
+  transition-timing-function: ease-out;
 }
 </style>

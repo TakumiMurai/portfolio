@@ -4,14 +4,7 @@
   <header>
     <div class="header-inner">
       <div class="header-home">Home</div>
-      <div class="header-list">
-        <ul class="header-lists">
-          <a><li>About</li></a>
-          <a><li>Works</li></a>
-          <a><li>Posts</li></a>
-          <a><li>Contact</li></a>
-        </ul>
-      </div>
+      <div class="header-home">About</div>
     </div>
   </header>
 </template>
