@@ -1,10 +1,20 @@
 <script setup lang="ts">
-import Header from './components/Header.vue'
-import { RouterLink, RouterView } from 'vue-router'
+import { ref, onMounted } from 'vue'
+import { RouterView } from 'vue-router'
+import SplashScreen from './components/SplashScreen.vue'
+
+const showSplashScreen = ref(true)
+
+onMounted(() => {
+  setTimeout(() => {
+    showSplashScreen.value = false
+  }, 6000)
+})
 </script>
 
 <template>
-  <RouterView></RouterView>
+  <SplashScreen v-if="showSplashScreen" />
+  <RouterView v-else></RouterView>
 </template>
 
 <style scoped lang="scss">
