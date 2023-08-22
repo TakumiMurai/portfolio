@@ -68,7 +68,7 @@ function typeText2(index: number) {
   font-weight: 900;
   font-size: calc(1.3rem + 4vw);
   text-transform: uppercase;
-  line-height: 0.8;
+  line-height: 1;
   color: #fff;
 }
 

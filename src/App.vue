@@ -2,6 +2,7 @@
 import { ref, onMounted } from 'vue'
 import { RouterView } from 'vue-router'
 import SplashScreen from './components/SplashScreen.vue'
+import MouseStalker from './components/MouseStalker.vue'
 
 const showSplashScreen = ref(true)
 

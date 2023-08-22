@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { ref, onMounted, onBeforeUnmount } from 'vue'
 
 const mouseX = ref(0)
@@ -8,61 +8,53 @@ const positionY = ref(0)
 const opacityA = ref(0)
 const opacityB = ref(0)
 
-const onMouseMove = (event) => {
+const onMouseMove = (event: MouseEvent) => {
   console.log('mousemove')
-  mouseX.value = event.pageX
-  mouseY.value = event.pageY
+  mouseX.value = event.clientX
+  mouseY.value = event.clientY
 }
-
-onMounted(() => window.addEventListener('mousemove', onMouseMove(event)))
-
-onBeforeUnmount(() => window.removeEventListener('mousemove', onMouseMove(event)))
 </script>
 
 <template>
-  <div>
-    <div class="Cursor" :style="{ top: mouseY + 'px', left: mouseX + 'px' }"></div>
-    <div class="stalker"></div>
+  <div class="mouse-stalker-wrapper" @mousemove="onMouseMove">
+    <div class="cursor" :style="{ top: mouseY + 'px', left: mouseX + 'px' }"></div>
+    <div class="cursor-follower"></div>
   </div>
 </template>
 
 <style>
-body {
-  position: relative;
-  height: 900px;
-  background-color: #dcdcdc;
-  cursor: none; /* bodyに対して設定することでページ全体でデフォルトカーソルを非表示にする*/
-  text-align: center;
+.mouse-stalker-wrapper {
+  height: 100%;
+  width: 100%;
 }
 
-body a:hover {
-  cursor: none; /*aタグホバー時のカーソルも非表示にする*/
+.cursor {
+  position: absolute;
+  background-color: #fff;
+  width: 6px;
+  height: 6px;
+  border-radius: 100%;
+  transition: transform 0.3s cubic-bezier(0.75, -1.27, 0.3, 2.33),
+    opacity 0.2s cubic-bezier(0.75, -0.27, 0.3, 1.33);
+  user-select: none;
+  pointer-events: none;
+  z-index: 10000;
+  transform: scale(1);
+  mix-blend-mode: screen;
 }
 
-.Cursor {
-  position: relative; /* 最初はページの左上に配置されるようにする */
-  width: 8px;
-  height: 8px;
-  margin: -4px 0 0 -4px; /* カーソルの焦点を中央に合わせる */
-  z-index: 3; /*一番手前に来るように*/
-  background-color: #000;
-  border-radius: 50%;
-  opacity: 0; /*開いた瞬間非表示*/
-  transition: transform 0.1s;
-}
-
-.stalker {
-  position: relative;
-  width: 40px;
-  height: 40px;
-  z-index: 9999; /*一番手前に来るように*/
-  background-color: #89c997;
-  border-radius: 50%;
-  opacity: 0; /*開いた瞬間非表示*/
-  transition: transform 0.1s;
-  pointer-events: none; /*マウス直下に常にstalker要素がくるのでホバー要素が働かなくなる。noneにすることでstalkerを無視する*/
-  transform: translate(0, 0);
-  transition: transform 0.2s; /*ちょっと遅れてついてくるように*/
-  transition-timing-function: ease-out;
+.cursor-follower {
+  position: absolute;
+  background-color: #bb86fc;
+  width: 20px;
+  height: 20px;
+  border-radius: 100%;
+  transition: transform 0.4s cubic-bezier(0.75, -1.27, 0.3, 2.33),
+    opacity 0.2s cubic-bezier(0.75, -0.27, 0.3, 1.33);
+  user-select: none;
+  pointer-events: none;
+  z-index: 10000;
+  transform: translate(5px, 5px);
+  mix-blend-mode: screen;
 }
 </style>

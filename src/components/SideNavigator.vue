@@ -20,6 +20,7 @@ const handleClick = (index: number): void => {
       class="navigatorContent"
       :class="{ 'navigatorContent-active': currentContentIndex === index }"
       v-for="(_, index) in props.contentNameList"
+      :key="index"
       @click="handleClick(index)"
     >
       <div class="navigatorIndex">{{ '0' + (index + 1) }}</div>
@@ -31,6 +32,7 @@ const handleClick = (index: number): void => {
 <style scoped lang="scss">
 .wrapperSideNavigator {
   position: absolute;
+  z-index: 1000;
   top: 50vh;
   right: 0;
 }
@@ -40,6 +42,7 @@ const handleClick = (index: number): void => {
   align-items: center;
   padding: 1rem 0;
   opacity: 0.25;
+  transition: opacity 1s ease-in-out;
 }
 
 .navigatorContent-active {
