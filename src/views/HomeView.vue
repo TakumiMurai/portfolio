@@ -5,17 +5,13 @@ import SideNavigator from '@/components/SideNavigator.vue'
 // 表示するページのインデックス
 const currentContentIndex: Ref<number> = ref(0)
 const char: Ref<Array<string>> = ref([])
+const isMouseOver: Ref<boolean> = ref(false)
 const imageSrcArray = [
   'https://webseisaku.webtame.jp/dcms_media/image/free_material_site_collection_cover_thum.jpg',
   'https://aipict.com/wp-content/uploads/2022/09/beach01.png',
   'https://www.pakutaso.com/shared/img/thumb/aig-ai221017197-xl.jpg'
 ]
-const scale = ref(1)
-const grayScale = ref(100)
 const targetElement = ref<HTMLImageElement | null>(null)
-const rotateX = ref(0)
-const rotateY = ref(0)
-const isDisabled = ref(false)
 
 // ページ名リスト
 const contentNameList: Array<String> = ['ABOUT ME', 'MY SKILLS', 'ABOUT THIS SITE']
@@ -73,39 +69,6 @@ const intervalForEach = (callback: Function, array: Array<string>, intervalTime:
   }, intervalTime)
 }
 
-const resetImage = () => {
-  scale.value = 1
-  grayScale.value = 100
-  rotateX.value = 0
-  rotateY.value = 0
-}
-
-const changeMousePosition = (event: MouseEvent) => {
-  scale.value = 1.04
-  grayScale.value = 0
-  const rect = getRectPosition()
-  if (rect) {
-    const rectCenterX = rect.x + rect.width / 2
-    const rectCenterY = rect.y + rect.height / 2
-    const tmpX = event.clientX - rectCenterX // 中心座標からの位置
-    const tmpY = event.clientY - rectCenterY // 中心座標からの位置
-    rotateX.value = (tmpX / rect.width) * -10
-    rotateY.value = (tmpY / rect.height) * 10
-  }
-}
-
-const getRectPosition = () => {
-  const element: HTMLImageElement | null = targetElement.value
-  return element?.getBoundingClientRect()
-}
-
-const rotateStyle = computed(() => {
-  return {
-    transform: `rotateX(${rotateY.value}deg) rotateY(${rotateX.value}deg) scale3d(${scale.value},${scale.value},${scale.value})`,
-    filter: `grayscale(${grayScale.value}%)`
-  }
-})
-
 const handleClick = (index: number): void => {
   hide()
   currentContentIndex.value = index
@@ -114,9 +77,13 @@ const handleClick = (index: number): void => {
   }, 1500)
 }
 
-const currentImage = computed(() => {
-  return imageSrcArray[currentContentIndex.value]
-})
+const onMouseOver = () => {
+  isMouseOver.value = true
+}
+
+const onMouseLeave = () => {
+  isMouseOver.value = false
+}
 
 onMounted(() => {
   show()
@@ -144,18 +111,21 @@ onMounted(() => {
           </transition-group>
         </div>
       </div>
-      <div class="image-container">
-        <transition name="fade">
-          <img
+      <div class="image-container-all" @mouseover="onMouseOver" @mouseleave="onMouseLeave">
+        <div class="image-container-left">
+          <div
             ref="targetElement"
-            class="image"
-            :key="currentImage"
-            :src="currentImage"
-            :style="rotateStyle"
-            @mouseleave="resetImage"
-            @mousemove="changeMousePosition"
-          />
-        </transition>
+            class="image-left"
+            :class="isMouseOver ? 'image-left-active' : ''"
+          ></div>
+        </div>
+        <div class="image-container-right">
+          <div
+            ref="targetElement"
+            class="image-right"
+            :class="isMouseOver ? 'image-right-active' : ''"
+          ></div>
+        </div>
       </div>
     </div>
   </div>
@@ -203,26 +173,76 @@ onMounted(() => {
   transform: translateY(80px);
 }
 
-.image-container {
-  height: 70%;
-  width: 50%;
+.image-container-all {
+  position: absolute;
   left: 25%;
   top: 15%;
-  position: absolute;
-  perspective: 1400px;
+  width: 50%;
+  height: 70%;
+  -webkit-backface-visibility: hidden;
+  will-change: transform;
 }
 
-.image {
+.image-container-left {
   position: absolute;
   left: 0;
-  width: 100%;
+  top: -25px;
+  width: 50.1%;
   height: 100%;
+  padding: 0;
+  margin: 0;
   min-width: 12.5rem;
   transform-origin: top;
-  object-fit: cover;
+  overflow: hidden;
   will-change: transform;
-  transform-style: preserve-3d;
-  transition: filter 0.5s;
+}
+.image-container-right {
+  position: absolute;
+  left: 50%;
+  top: 25px;
+  width: 50.1%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  min-width: 12.5rem;
+  transform-origin: top;
+  overflow: hidden;
+  will-change: transform;
+}
+
+.image-left {
+  background-image: url(https://webseisaku.webtame.jp/dcms_media/image/free_material_site_collection_cover_thum.jpg);
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 50vw;
+  height: 100%;
+  background-size: cover;
+  background-position: 50%;
+  transform: translateY(-25px);
+  transition: all 0.4s;
+  will-change: transform;
+}
+.image-right {
+  background-image: url(https://webseisaku.webtame.jp/dcms_media/image/free_material_site_collection_cover_thum.jpg);
+  position: absolute;
+  left: -25vw;
+  top: 0;
+  width: 50vw;
+  height: 100%;
+  background-size: cover;
+  background-position: 50%;
+  transform: translateY(-25px);
+  transition: all 0.4s;
+  will-change: transform;
+}
+
+.image-left-active {
+  background-position: center 25px;
+}
+
+.image-right-active {
+  background-position: center -25px;
 }
 
 .fade-enter-active,
