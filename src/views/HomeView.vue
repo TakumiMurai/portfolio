@@ -1,17 +1,16 @@
 <script setup lang="ts">
-import { ref, onMounted, computed } from 'vue'
+import { ref, onMounted } from 'vue'
 import type { Ref } from 'vue/dist/vue.js'
 import SideNavigator from '@/components/SideNavigator.vue'
 // 表示するページのインデックス
 const currentContentIndex: Ref<number> = ref(0)
 const char: Ref<Array<string>> = ref([])
-const isMouseOver: Ref<boolean> = ref(false)
 const imageSrcArray = [
   'https://webseisaku.webtame.jp/dcms_media/image/free_material_site_collection_cover_thum.jpg',
   'https://aipict.com/wp-content/uploads/2022/09/beach01.png',
   'https://www.pakutaso.com/shared/img/thumb/aig-ai221017197-xl.jpg'
 ]
-const targetElement = ref<HTMLImageElement | null>(null)
+const LETTER_ANIMATION_INTERVAL_TIME = 20
 
 // ページ名リスト
 const contentNameList: Array<String> = ['ABOUT ME', 'MY SKILLS', 'ABOUT THIS SITE']
@@ -39,7 +38,7 @@ const show = () => {
     char.value.push(letter)
   }
 
-  intervalForEach(callback, letters, 60)
+  intervalForEach(callback, letters, LETTER_ANIMATION_INTERVAL_TIME)
 }
 
 const hide = () => {
@@ -51,7 +50,7 @@ const hide = () => {
     char.value.pop()
   }
 
-  intervalForEach(callback, letters, 60)
+  intervalForEach(callback, letters, LETTER_ANIMATION_INTERVAL_TIME)
 }
 
 const intervalForEach = (callback: Function, array: Array<string>, intervalTime: number) => {
@@ -77,11 +76,15 @@ const handleClick = (index: number): void => {
   }, 1500)
 }
 
+const isMouseOver = ref(false)
+
 const onMouseOver = () => {
+  console.log('onMouseOver')
   isMouseOver.value = true
 }
 
 const onMouseLeave = () => {
+  console.log('onMouseLeave')
   isMouseOver.value = false
 }
 
@@ -111,20 +114,12 @@ onMounted(() => {
           </transition-group>
         </div>
       </div>
-      <div class="image-container-all" @mouseover="onMouseOver" @mouseleave="onMouseLeave">
-        <div class="image-container-left">
-          <div
-            ref="targetElement"
-            class="image-left"
-            :class="isMouseOver ? 'image-left-active' : ''"
-          ></div>
+      <div class="image-wrapper-all" @mouseover="onMouseOver" @mouseleave="onMouseLeave">
+        <div class="image-wrapper-left">
+          <div class="image-left" :class="isMouseOver ? 'image-left-active' : ''"></div>
         </div>
-        <div class="image-container-right">
-          <div
-            ref="targetElement"
-            class="image-right"
-            :class="isMouseOver ? 'image-right-active' : ''"
-          ></div>
+        <div class="image-wrapper-right">
+          <div class="image-right" :class="isMouseOver ? 'image-right-active' : ''"></div>
         </div>
       </div>
     </div>
@@ -165,28 +160,28 @@ onMounted(() => {
 
 .list-enter-active,
 .list-leave-active {
-  transition: all 1s ease-in-out;
+  transition: all 0.8s;
 }
 
 .list-enter-from,
 .list-leave-to {
-  transform: translateY(80px);
+  transform: translateY(calc(-1.3rem - 4vw));
 }
 
-.image-container-all {
+.image-wrapper-all {
   position: absolute;
   left: 25%;
   top: 15%;
   width: 50%;
   height: 70%;
+  overflow: hidden;
   -webkit-backface-visibility: hidden;
   will-change: transform;
 }
 
-.image-container-left {
+.image-wrapper-left {
   position: absolute;
   left: 0;
-  top: -25px;
   width: 50.1%;
   height: 100%;
   padding: 0;
@@ -196,10 +191,10 @@ onMounted(() => {
   overflow: hidden;
   will-change: transform;
 }
-.image-container-right {
+.image-wrapper-right {
   position: absolute;
-  left: 50%;
-  top: 25px;
+  left: auto;
+  right: 0;
   width: 50.1%;
   height: 100%;
   padding: 0;
@@ -211,46 +206,38 @@ onMounted(() => {
 }
 
 .image-left {
-  background-image: url(https://webseisaku.webtame.jp/dcms_media/image/free_material_site_collection_cover_thum.jpg);
+  background-image: url(https://skuwana.info/wp-content/uploads/2019/02/sean-o-KMn4VEeEPR8-unsplash.jpg);
   position: absolute;
   left: 0;
-  top: 0;
   width: 50vw;
   height: 100%;
   background-size: cover;
   background-position: 50%;
-  transform: translateY(-25px);
+  transform: translateY(-50px);
   transition: all 0.4s;
   will-change: transform;
 }
+
 .image-right {
-  background-image: url(https://webseisaku.webtame.jp/dcms_media/image/free_material_site_collection_cover_thum.jpg);
+  background-image: url(https://skuwana.info/wp-content/uploads/2019/02/sean-o-KMn4VEeEPR8-unsplash.jpg);
   position: absolute;
-  left: -25vw;
-  top: 0;
+  bottom: 0;
+  left: auto;
+  right: 0;
+  transform: translateY(50px);
   width: 50vw;
   height: 100%;
   background-size: cover;
   background-position: 50%;
-  transform: translateY(-25px);
   transition: all 0.4s;
   will-change: transform;
 }
 
 .image-left-active {
-  background-position: center 25px;
+  background-position: center 50px;
 }
 
 .image-right-active {
-  background-position: center -25px;
-}
-
-.fade-enter-active,
-.fade-leave-active {
-  transition: all 3s ease-in-out;
-}
-.fade-enter-from,
-.fade-leave-to {
-  transform: translateY(80px);
+  background-position: center -50px;
 }
 </style>
