@@ -1,54 +1,39 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import router from '@/router'
+
+const onClickHome = () => {
+  console.log('onClick')
+  router.push({ name: 'home' })
+}
+</script>
 
 <template>
-  <header>
-    <div class="header-inner">
-      <div class="header-home">Home</div>
-      <div class="header-home">About</div>
-    </div>
-  </header>
+  <div class="header-wrapper">
+    <div class="header-left" @click="onClickHome">Home</div>
+    <div class="header-right">About</div>
+  </div>
 </template>
 
 <style lang="scss">
-header {
-  height: 900px;
-  font-weight: bold;
-  font-size: 26px;
-
-  .header-home {
-    line-height: 3;
-    transition: 0.3s;
-    &:hover {
-      transform: scale(1.5);
-    }
-  }
-
-  .header-inner {
+.header {
+  &-wrapper {
+    top: 3rem;
+    left: 3rem;
+    width: calc(100vw - 6rem);
+    position: absolute;
     display: flex;
     justify-content: space-between;
-    margin: 0 auto;
-    width: 90%;
-
-    .header-lists {
-      list-style: none;
-      display: flex;
-
-      li {
-        cursor: none;
-        border-radius: 5px;
-        padding: 10px;
-        margin-right: 50px;
-        transition: 0.3s;
-
-        &:nth-of-type(4) {
-          margin-right: 0px;
-        }
-
-        &:hover {
-          transform: scale(1.5);
-        }
-      }
-    }
+    z-index: 100;
+  }
+  &-left {
+    font-weight: 700;
+    color: #fff;
+    font-size: 16px;
+  }
+  &-right {
+    font-weight: 700;
+    color: #fff;
+    font-size: 16px;
   }
 }
 </style>

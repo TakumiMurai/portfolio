@@ -1,14 +1,22 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import type { Ref } from 'vue/dist/vue.js'
+import Header from '@/components/Header.vue'
 import SideNavigator from '@/components/SideNavigator.vue'
+import router from '@/router'
 // 表示するページのインデックス
 const currentContentIndex: Ref<number> = ref(0)
 const char: Ref<Array<string>> = ref([])
 const imageSrcArray = [
-  'https://webseisaku.webtame.jp/dcms_media/image/free_material_site_collection_cover_thum.jpg',
-  'https://aipict.com/wp-content/uploads/2022/09/beach01.png',
-  'https://www.pakutaso.com/shared/img/thumb/aig-ai221017197-xl.jpg'
+  {
+    pageName: 'aboutMe',
+    src: 'https://webseisaku.webtame.jp/dcms_media/image/free_material_site_collection_cover_thum.jpg'
+  },
+  { pageName: 'mySkills', src: 'https://aipict.com/wp-content/uploads/2022/09/beach01.png' },
+  {
+    pageName: 'whatsThisSite',
+    src: 'https://www.pakutaso.com/shared/img/thumb/aig-ai221017197-xl.jpg'
+  }
 ]
 const LETTER_ANIMATION_INTERVAL_TIME = 20
 
@@ -26,7 +34,7 @@ const handleWheel = (event: WheelEvent) => {
   }
   setTimeout(() => {
     show()
-  }, 1500)
+  }, 1000)
 }
 
 const show = () => {
@@ -73,19 +81,21 @@ const handleClick = (index: number): void => {
   currentContentIndex.value = index
   setTimeout(() => {
     show()
-  }, 1500)
+  }, 1000)
 }
 
 const isMouseOver = ref(false)
 
 const onMouseOver = () => {
-  console.log('onMouseOver')
   isMouseOver.value = true
 }
 
 const onMouseLeave = () => {
-  console.log('onMouseLeave')
   isMouseOver.value = false
+}
+
+const onclick = (pageName: string) => {
+  router.push(pageName)
 }
 
 onMounted(() => {
@@ -95,6 +105,7 @@ onMounted(() => {
 
 <template>
   <div class="wrapperHome">
+    <Header></Header>
     <div @wheel="handleWheel">
       <SideNavigator
         :contentNameList="contentNameList"
@@ -114,12 +125,35 @@ onMounted(() => {
           </transition-group>
         </div>
       </div>
-      <div class="image-wrapper-all" @mouseover="onMouseOver" @mouseleave="onMouseLeave">
+      <div
+        class="image-wrapper-all"
+        @mouseover="onMouseOver"
+        @mouseleave="onMouseLeave"
+        @click="onclick(imageSrcArray[currentContentIndex].pageName)"
+      >
         <div class="image-wrapper-left">
-          <div class="image-left" :class="isMouseOver ? 'image-left-active' : ''"></div>
+          <transition-group name="slide">
+            <div
+              v-for="(image, index) in imageSrcArray"
+              :key="index"
+              v-show="index === currentContentIndex"
+              class="image-left"
+              :class="isMouseOver ? 'image-left-active' : ''"
+              :style="{ backgroundImage: 'url(' + image.src + ')' }"
+            ></div>
+          </transition-group>
         </div>
         <div class="image-wrapper-right">
-          <div class="image-right" :class="isMouseOver ? 'image-right-active' : ''"></div>
+          <transition-group name="slide-delay">
+            <div
+              v-for="(image, index) in imageSrcArray"
+              :key="index"
+              v-show="index === currentContentIndex"
+              class="image-right"
+              :class="isMouseOver ? 'image-right-active' : ''"
+              :style="{ backgroundImage: 'url(' + image.src + ')' }"
+            ></div>
+          </transition-group>
         </div>
       </div>
     </div>
@@ -160,10 +194,12 @@ onMounted(() => {
 
 .list-enter-active,
 .list-leave-active {
-  transition: all 0.8s;
+  transition: all 0.5s;
 }
 
-.list-enter-from,
+.list-enter-from {
+  transform: translateY(calc(1.3rem + 4vw));
+}
 .list-leave-to {
   transform: translateY(calc(-1.3rem - 4vw));
 }
@@ -239,5 +275,30 @@ onMounted(() => {
 
 .image-right-active {
   background-position: center -50px;
+}
+
+.slide-enter-active {
+  transition: transform 0.5s cubic-bezier(0.5, 0, 0.75, 0) 1s;
+}
+.slide-leave-active {
+  transition: transform 0.5s cubic-bezier(0.5, 0, 0.75, 0);
+}
+.slide-enter-from {
+  transform: translateY(100%);
+}
+.slide-leave-to {
+  transform: translateY(-100%);
+}
+.slide-delay-enter-active {
+  transition: transform 0.5s cubic-bezier(0.5, 0, 0.75, 0) 1.1s;
+}
+.slide-delay-leave-active {
+  transition: transform 0.5s cubic-bezier(0.5, 0, 0.75, 0) 0.1s;
+}
+.slide-delay-enter-from {
+  transform: translateY(100%);
+}
+.slide-delay-leave-to {
+  transform: translateY(-100%);
 }
 </style>
