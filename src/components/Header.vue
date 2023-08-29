@@ -5,12 +5,15 @@ const onClickHome = () => {
   console.log('onClick')
   router.push({ name: 'home' })
 }
+const onClickBack = () => {
+  router.push({ name: 'home' })
+}
 </script>
 
 <template>
   <div class="header-wrapper">
     <div class="header-left" @click="onClickHome">Home</div>
-    <div class="header-right">About</div>
+    <div class="header-right" @click="onClickBack">Back</div>
   </div>
 </template>
 

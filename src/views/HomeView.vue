@@ -188,7 +188,6 @@ onMounted(() => {
   line-height: 0.7;
   color: #fff;
   margin: 0;
-  margin: 0;
   white-space: pre;
 }
 

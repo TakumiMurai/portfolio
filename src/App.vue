@@ -23,6 +23,6 @@ html,
 body,
 a {
   // cursor: none;
-  background-color: black;
+  background-color: #121212;
 }
 </style>
