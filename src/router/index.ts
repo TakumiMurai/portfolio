@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import AboutMe from '../views/AboutMe.vue'
 import MySkills from '../views/MySkills.vue'
-import WhatsThisSite from '../views/WhatsThisSite.vue'
+import MyFavorite from '../views/MyFavorite.vue'
 import Contact from '../views/Contact.vue'
 
 const router = createRouter({
@@ -24,15 +24,15 @@ const router = createRouter({
       component: MySkills
     },
     {
-      path: '/whatsThisSite',
-      name: 'whatsThisSite',
-      component: WhatsThisSite
+      path: '/myFavorite',
+      name: 'myFavorite',
+      component: MyFavorite
     },
     {
       path: '/contact',
       name: 'contact',
       component: Contact
-    },
+    }
   ]
 })
 

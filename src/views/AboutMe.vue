@@ -1,38 +1,45 @@
-<script setup></script>
+<script setup lang="ts">
+import FadeInAnimation from '@/components/FadeInAnimation.vue'
+import Footer from '@/components/Footer.vue'
+</script>
 
 <template>
   <img src="https://sato-takaaki.work/images/sp/bg_spabout_kv.png" class="header-img" />
   <div class="page-title">ABOUT ME</div>
   <div class="content">
     <div class="content-inner">
-      <div class="profile-ruby">村井 拓海</div>
-      <div class="profile-name-wrapper">
-        <div class="profile-left">TAKUMI MURAI</div>
-        <div class="profile-right">ENGINEER</div>
-      </div>
-      <div class="profile-sentence">
-        1998年、埼玉県草加市生まれ。
-        <br />
-        <br />
-        慶應義塾大学理工学部を卒業後、2021年に開発職としてSky株式会社に入社。
-        <br />
-        <br />
-        入社後、アサインされたチームでフロントエンドエンジニアとしてUI実装を行ったのち、チーム異動。フルスタックエンジニアとしてモバイルアプリ開発チームでフロントエンドからバックエンドまでの設計・実装・テストを行う。
-        <br />
-        <br />
-        1年ほどの活動後、主体性の高さや技術力を評価され現在のチームに異動。
-        <br />
-        <br />
-        1万人ほどの規模の業務用アプリの保守・改善活動を行うチームのメンバーとして活動する。
-        <br />
-        <br />
-        現在のチームでは技術キャッチアップ力を評価され、画面だけでなくバックエンドに関わる部分の改善タスクを実施。
-      </div>
+      <FadeInAnimation>
+        <div class="profile-ruby">村井 拓海</div>
+      </FadeInAnimation>
+      <FadeInAnimation>
+        <div class="profile-name-wrapper">
+          <div class="profile-left">TAKUMI MURAI</div>
+          <div class="profile-right">ENGINEER</div>
+        </div>
+      </FadeInAnimation>
+      <FadeInAnimation>
+        <div class="profile-sentence">
+          1998年、埼玉県草加市生まれ。
+          <br />
+          <br />
+          慶應義塾大学理工学部を卒業後、2021年に開発職としてSky株式会社に入社。
+          <br />
+          <br />
+          入社後、アサインされたチームでフロントエンドエンジニアとしてUI実装を行ったのち、チーム異動。フルスタックエンジニアとしてモバイルアプリ開発チームでフロントエンドからバックエンドまでの設計・実装・テストを行う。
+          <br />
+          <br />
+          1年ほどの活動後、主体性の高さや技術力を評価され現在のチームに異動。
+          <br />
+          <br />
+          1万人ほどの規模の業務用アプリの保守・改善活動を行うチームのメンバーとして活動する。
+          <br />
+          <br />
+          現在のチームでは技術キャッチアップ力を評価され、画面だけでなくバックエンドに関わる部分の改善タスクを実施。
+        </div>
+      </FadeInAnimation>
     </div>
   </div>
-  <div class="footer-wrapper">
-    <div class="footer-inner">TAKUMI MURAI</div>
-  </div>
+  <Footer></Footer>
 </template>
 
 <style scoped>

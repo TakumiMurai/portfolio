@@ -1,0 +1,65 @@
+<script setup lang="ts">
+import { ref } from 'vue'
+const showText = ref(false)
+
+const onMouseenter = () => {
+  showText.value = true
+}
+const onMouseleave = () => {
+  showText.value = false
+}
+</script>
+
+<template>
+  <div class="image-container" @mouseenter="onMouseenter" @mouseleave="onMouseleave">
+    <img class="image" src="https://ascii.jp/img/2023/05/01/3531840/l/f3cf566db48c40e1.png" />
+    <transition name="overlay">
+      <div class="text-overlay" v-if="showText">
+        <p class="overlay-text">text</p>
+      </div>
+    </transition>
+  </div>
+</template>
+
+<style>
+.image-container {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+}
+
+.image {
+  width: 100px;
+  height: auto;
+  transition: filter 0.3s ease-in-out;
+}
+
+.text-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+}
+
+.overlay-text {
+  color: white;
+  font-size: 18px;
+}
+
+.overlay-enter-active,
+.overlay-leave-active {
+  transition: all 0.6s ease;
+}
+
+.overlay-enter-from,
+.overlay-leave-to {
+  padding-top: 10px;
+  opacity: 0;
+}
+</style>

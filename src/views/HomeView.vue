@@ -14,14 +14,14 @@ const imageSrcArray = [
   },
   { pageName: 'mySkills', src: 'https://aipict.com/wp-content/uploads/2022/09/beach01.png' },
   {
-    pageName: 'whatsThisSite',
+    pageName: 'myFavorite',
     src: 'https://www.pakutaso.com/shared/img/thumb/aig-ai221017197-xl.jpg'
   }
 ]
 const LETTER_ANIMATION_INTERVAL_TIME = 20
 
 // ページ名リスト
-const contentNameList: Array<String> = ['ABOUT ME', 'MY SKILLS', 'ABOUT THIS SITE']
+const contentNameList: Array<String> = ['ABOUT ME', 'MY SKILLS', 'MY FAVORITE']
 
 // マウスホイール動作時のイベント
 const handleWheel = (event: WheelEvent) => {

@@ -4,7 +4,7 @@ import Header from '@/components/Header.vue'
 <template>
   <Header></Header>
   <div class="about">
-    <h1>This is an what's this site page</h1>
+    <h1>This is an my FAVORITE page</h1>
   </div>
 </template>
 

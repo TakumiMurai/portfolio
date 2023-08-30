@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import Header from '@/components/Header.vue'
+import FadeInAnimation from '@/components/FadeInAnimation.vue'
+import Footer from '@/components/Footer.vue'
 import iconCss from '@/assets/icons8-css.svg'
 import iconHtml from '@/assets/icons8-html.svg'
 import iconJavascript from '@/assets/icons8-javascript.svg'
@@ -13,35 +15,43 @@ import iconAws from '@/assets/icons8-aws.svg'
 const skills = ref([
   {
     name: 'HTML',
-    img: iconHtml
+    img: iconHtml,
+    content: 'ここに説明を入力'
   },
   {
     name: 'CSS',
-    img: iconCss
+    img: iconCss,
+    content: 'ここに説明を入力'
   },
   {
     name: 'JavaScript',
-    img: iconJavascript
+    img: iconJavascript,
+    content: 'ここに説明を入力'
   },
   {
     name: 'jQuery',
-    img: iconJquery
+    img: iconJquery,
+    content: 'ここに説明を入力'
   },
   {
     name: 'ReactNative',
-    img: iconReact
+    img: iconReact,
+    content: 'ここに説明を入力'
   },
   {
     name: 'TypeScript',
-    img: iconTypescript
+    img: iconTypescript,
+    content: 'ここに説明を入力'
   },
   {
     name: 'Vue.js',
-    img: iconVue
+    img: iconVue,
+    content: 'ここに説明を入力'
   },
   {
     name: 'AWS',
-    img: iconAws
+    img: iconAws,
+    content: 'ここに説明を入力'
   }
 ])
 </script>
@@ -50,18 +60,21 @@ const skills = ref([
   <div class="page-title">MY SKILLS</div>
   <div class="content">
     <div class="content-inner">
-      <div v-for="skill in skills" class="skill-wrapper">
-        <img class="skill-icon" :src="skill.img" />
-        <div class="skill-title">{{ skill.name }}</div>
+      <div v-for="skill in skills">
+        <FadeInAnimation class="skill-wrapper">
+          <img class="skill-icon" :src="skill.img" />
+          <div class="skill-text-wrapper">
+            <div class="skill-title">{{ skill.name }}</div>
+            <div class="skill-content">{{ skill.content }}</div>
+          </div>
+        </FadeInAnimation>
       </div>
     </div>
   </div>
-  <div class="footer-wrapper">
-    <div class="footer-inner">TAKUMI MURAI</div>
-  </div>
+  <Footer></Footer>
 </template>
 
-<style>
+<style scoped lang="scss">
 .page-title {
   position: fixed;
   font-weight: 900;
@@ -92,14 +105,22 @@ const skills = ref([
   border-bottom: 1px solid #9c9c9b;
 }
 .skill-wrapper {
+  width: 100%;
   display: flex;
+  margin-bottom: 5vh;
 }
 .skill-icon {
   width: 5vw;
 }
 .skill-title {
-  font-size: 1vw;
+  font-size: 1.5vw;
+  margin-left: 8px;
+  font-weight: 600;
   color: #fff;
+}
+.skill-content {
+  font-size: 1.5vw;
+  margin-left: 16px;
 }
 .footer-wrapper {
   width: 100vw;
@@ -108,7 +129,6 @@ const skills = ref([
   background-color: #121212;
   position: relative;
 }
-
 .footer-inner {
   color: #fff;
   font-size: 1.3vw;
