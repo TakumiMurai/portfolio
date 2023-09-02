@@ -1,11 +1,31 @@
 <script setup lang="ts">
+import { ref, onMounted } from 'vue'
+import type { Ref } from 'vue/dist/vue.js'
 import FadeInAnimation from '@/components/FadeInAnimation.vue'
+import Header from '@/components/Header.vue'
 import Footer from '@/components/Footer.vue'
+import aboutMePicture from '@/assets/about-me.jpg'
+
+const isActiveOverlay: Ref<boolean> = ref(true)
+
+const onClick = () => {
+  isActiveOverlay.value = true
+}
+
+onMounted(() => {
+  isActiveOverlay.value = false
+})
 </script>
 
 <template>
-  <img src="https://sato-takaaki.work/images/sp/bg_spabout_kv.png" class="header-img" />
-  <div class="page-title">ABOUT ME</div>
+  <Header @click="onClick"></Header>
+  <transition name="overlay-green">
+    <div class="overlay-green" v-if="isActiveOverlay"></div>
+  </transition>
+  <transition name="overlay-black">
+    <div class="overlay-black" v-if="isActiveOverlay"></div>
+  </transition>
+  <img :src="aboutMePicture" class="header-img" />
   <div class="content">
     <div class="content-inner">
       <FadeInAnimation>
@@ -43,6 +63,44 @@ import Footer from '@/components/Footer.vue'
 </template>
 
 <style scoped>
+.overlay-green {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #47ba87;
+  z-index: 2;
+}
+.overlay-green-enter-active {
+  transition: all 0.5s ease;
+}
+.overlay-green-leave-active {
+  transition: all 0.5s ease 0.1s;
+}
+.overlay-green-enter-from,
+.overlay-green-leave-to {
+  transform: translateY(100%);
+}
+.overlay-black {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #121212;
+  z-index: 2;
+}
+.overlay-black-enter-active {
+  transition: all 0.5s ease 0.1s;
+}
+.overlay-black-leave-active {
+  transition: all 0.5s ease;
+}
+.overlay-black-enter-from,
+.overlay-black-leave-to {
+  transform: translateY(100%);
+}
 .header-img {
   width: 100vw;
   position: fixed;

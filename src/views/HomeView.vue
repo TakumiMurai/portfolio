@@ -1,40 +1,50 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import type { Ref } from 'vue/dist/vue.js'
-import Header from '@/components/Header.vue'
 import SideNavigator from '@/components/SideNavigator.vue'
 import router from '@/router'
+import aboutMePicture from '@/assets/about-me.jpg'
+import mySkillsPicture from '@/assets/my-skills.jpg'
+import myFavoritePicture from '@/assets/my-favorite.jpg'
 // 表示するページのインデックス
 const currentContentIndex: Ref<number> = ref(0)
 const char: Ref<Array<string>> = ref([])
 const imageSrcArray = [
   {
     pageName: 'aboutMe',
-    src: 'https://webseisaku.webtame.jp/dcms_media/image/free_material_site_collection_cover_thum.jpg'
+    src: aboutMePicture
   },
-  { pageName: 'mySkills', src: 'https://aipict.com/wp-content/uploads/2022/09/beach01.png' },
+  { pageName: 'mySkills', src: mySkillsPicture },
   {
     pageName: 'myFavorite',
-    src: 'https://www.pakutaso.com/shared/img/thumb/aig-ai221017197-xl.jpg'
+    src: myFavoritePicture
   }
 ]
 const LETTER_ANIMATION_INTERVAL_TIME = 20
-
 // ページ名リスト
 const contentNameList: Array<String> = ['ABOUT ME', 'MY SKILLS', 'MY FAVORITE']
+const canClick: Ref<boolean> = ref(true)
+const canScroll: Ref<boolean> = ref(true)
+const isActiveOverlay: Ref<boolean> = ref(true)
 
 // マウスホイール動作時のイベント
 const handleWheel = (event: WheelEvent) => {
-  const totalContent: number = contentNameList.length
-  hide()
-  if (event.deltaY > 0) {
-    currentContentIndex.value = (currentContentIndex.value + 1) % totalContent
-  } else {
-    currentContentIndex.value = (currentContentIndex.value - 1 + totalContent) % totalContent
+  if (canScroll.value) {
+    canScroll.value = false
+    const totalContent: number = contentNameList.length
+    hide()
+    if (event.deltaY > 0) {
+      currentContentIndex.value = (currentContentIndex.value + 1) % totalContent
+    } else {
+      currentContentIndex.value = (currentContentIndex.value - 1 + totalContent) % totalContent
+    }
+    setTimeout(() => {
+      show()
+      setTimeout(() => {
+        canScroll.value = true
+      }, 1000)
+    }, 1000)
   }
-  setTimeout(() => {
-    show()
-  }, 1000)
 }
 
 const show = () => {
@@ -77,11 +87,17 @@ const intervalForEach = (callback: Function, array: Array<string>, intervalTime:
 }
 
 const handleClick = (index: number): void => {
-  hide()
-  currentContentIndex.value = index
-  setTimeout(() => {
-    show()
-  }, 1000)
+  if (canClick.value) {
+    canClick.value = false
+    hide()
+    currentContentIndex.value = index
+    setTimeout(() => {
+      show()
+      setTimeout(() => {
+        canClick.value = true
+      }, 1000)
+    }, 1000)
+  }
 }
 
 const isMouseOver = ref(false)
@@ -95,17 +111,26 @@ const onMouseLeave = () => {
 }
 
 const onclick = (pageName: string) => {
-  router.push(pageName)
+  isActiveOverlay.value = true
+  setTimeout(() => {
+    router.push(pageName)
+  }, 1000)
 }
 
 onMounted(() => {
+  isActiveOverlay.value = false
   show()
 })
 </script>
 
 <template>
   <div class="wrapperHome">
-    <Header></Header>
+    <transition name="overlay-green">
+      <div class="overlay-green" v-if="isActiveOverlay"></div>
+    </transition>
+    <transition name="overlay-black">
+      <div class="overlay-black" v-if="isActiveOverlay"></div>
+    </transition>
     <div @wheel="handleWheel">
       <SideNavigator
         :contentNameList="contentNameList"
@@ -165,7 +190,44 @@ onMounted(() => {
   height: 100vh;
   width: 100vw;
 }
-
+.overlay-green {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #47ba87;
+  z-index: 2;
+}
+.overlay-green-enter-active {
+  transition: all 0.5s ease;
+}
+.overlay-green-leave-active {
+  transition: all 0.5s ease 0.1s;
+}
+.overlay-green-enter-from,
+.overlay-green-leave-to {
+  transform: translateY(100%);
+}
+.overlay-black {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #121212;
+  z-index: 2;
+}
+.overlay-black-enter-active {
+  transition: all 0.5s ease 0.1s;
+}
+.overlay-black-leave-active {
+  transition: all 0.5s ease;
+}
+.overlay-black-enter-from,
+.overlay-black-leave-to {
+  transform: translateY(100%);
+}
 .pageContent {
   position: relative;
   height: 100vh;
@@ -178,7 +240,7 @@ onMounted(() => {
   left: 3rem;
   display: flex;
   overflow: hidden;
-  z-index: 500;
+  z-index: 1;
 }
 
 .transition-letters {

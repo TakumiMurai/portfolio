@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
+import type { Ref } from 'vue/dist/vue.js'
 import Header from '@/components/Header.vue'
 import FadeInAnimation from '@/components/FadeInAnimation.vue'
 import Footer from '@/components/Footer.vue'
@@ -11,6 +12,9 @@ import iconReact from '@/assets/icons8-react-native.svg'
 import iconTypescript from '@/assets/icons8-typescript.svg'
 import iconVue from '@/assets/icons8-vue-js.svg'
 import iconAws from '@/assets/icons8-aws.svg'
+import mySkillsPicture from '@/assets/my-skills.jpg'
+
+const isActiveOverlay: Ref<boolean> = ref(true)
 
 const skills = ref([
   {
@@ -54,9 +58,24 @@ const skills = ref([
     content: 'ここに説明を入力'
   }
 ])
+
+const onClick = () => {
+  isActiveOverlay.value = true
+}
+
+onMounted(() => {
+  isActiveOverlay.value = false
+})
 </script>
 <template>
-  <Header></Header>
+  <Header @click="onClick"></Header>
+  <transition name="overlay-green">
+    <div class="overlay-green" v-if="isActiveOverlay"></div>
+  </transition>
+  <transition name="overlay-black">
+    <div class="overlay-black" v-if="isActiveOverlay"></div>
+  </transition>
+  <img :src="mySkillsPicture" class="header-img" />
   <div class="page-title">MY SKILLS</div>
   <div class="content">
     <div class="content-inner">
@@ -75,6 +94,50 @@ const skills = ref([
 </template>
 
 <style scoped lang="scss">
+.overlay-green {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #47ba87;
+  z-index: 2;
+}
+.overlay-green-enter-active {
+  transition: all 0.5s ease;
+}
+.overlay-green-leave-active {
+  transition: all 0.5s ease 0.1s;
+}
+.overlay-green-enter-from,
+.overlay-green-leave-to {
+  transform: translateY(100%);
+}
+.overlay-black {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #121212;
+  z-index: 2;
+}
+.overlay-black-enter-active {
+  transition: all 0.5s ease 0.1s;
+}
+.overlay-black-leave-active {
+  transition: all 0.5s ease;
+}
+.overlay-black-enter-from,
+.overlay-black-leave-to {
+  transform: translateY(100%);
+}
+.header-img {
+  width: 100vw;
+  position: fixed;
+  top: 0;
+  z-index: -2;
+}
 .page-title {
   position: fixed;
   font-weight: 900;

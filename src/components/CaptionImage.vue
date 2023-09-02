@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+
+defineProps<{ imageSource: string; caption: string }>()
+
 const showText = ref(false)
 
 const onMouseenter = () => {
@@ -12,10 +15,10 @@ const onMouseleave = () => {
 
 <template>
   <div class="image-container" @mouseenter="onMouseenter" @mouseleave="onMouseleave">
-    <img class="image" src="https://ascii.jp/img/2023/05/01/3531840/l/f3cf566db48c40e1.png" />
+    <img class="image" :src="imageSource" />
     <transition name="overlay">
       <div class="text-overlay" v-if="showText">
-        <p class="overlay-text">text</p>
+        <p class="overlay-text">{{ caption }}</p>
       </div>
     </transition>
   </div>

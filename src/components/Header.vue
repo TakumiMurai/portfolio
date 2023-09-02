@@ -2,18 +2,15 @@
 import router from '@/router'
 
 const onClickHome = () => {
-  console.log('onClick')
-  router.push({ name: 'home' })
-}
-const onClickBack = () => {
-  router.push({ name: 'home' })
+  setTimeout(() => {
+    router.push({ name: 'home' })
+  }, 1000)
 }
 </script>
 
 <template>
   <div class="header-wrapper">
     <div class="header-left" @click="onClickHome">Home</div>
-    <div class="header-right" @click="onClickBack">Back</div>
   </div>
 </template>
 
@@ -23,7 +20,7 @@ const onClickBack = () => {
     top: 3rem;
     left: 3rem;
     width: calc(100vw - 6rem);
-    position: absolute;
+    position: fixed;
     display: flex;
     justify-content: space-between;
     z-index: 100;
