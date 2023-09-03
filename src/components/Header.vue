@@ -30,10 +30,5 @@ const onClickHome = () => {
     color: #fff;
     font-size: 16px;
   }
-  &-right {
-    font-weight: 700;
-    color: #fff;
-    font-size: 16px;
-  }
 }
 </style>

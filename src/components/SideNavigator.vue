@@ -30,11 +30,18 @@ const handleClick = (index: number): void => {
 </template>
 
 <style scoped lang="scss">
-.wrapperSideNavigator {
-  position: absolute;
-  z-index: 1000;
-  top: 50vh;
-  right: 0;
+@media screen and (max-width: 768px) {
+  .wrapperSideNavigator {
+    display: none;
+  }
+}
+@media screen and (min-width: 769px) {
+  .wrapperSideNavigator {
+    position: absolute;
+    z-index: 1000;
+    top: 50vh;
+    right: 0;
+  }
 }
 .navigatorContent {
   display: flex;

@@ -189,6 +189,7 @@ onMounted(() => {
 .wrapperHome {
   height: 100vh;
   width: 100vw;
+  overflow: hidden;
 }
 .overlay-green {
   position: absolute;
@@ -233,16 +234,6 @@ onMounted(() => {
   height: 100vh;
   width: 100vw;
 }
-
-.transition-container {
-  position: absolute;
-  bottom: calc(2rem + 4vw);
-  left: 3rem;
-  display: flex;
-  overflow: hidden;
-  z-index: 1;
-}
-
 .transition-letters {
   font-weight: 900;
   font-size: calc(1.3rem + 4vw);
@@ -264,16 +255,142 @@ onMounted(() => {
 .list-leave-to {
   transform: translateY(calc(-1.3rem - 4vw));
 }
-
-.image-wrapper-all {
-  position: absolute;
-  left: 25%;
-  top: 15%;
-  width: 50%;
-  height: 70%;
-  overflow: hidden;
-  -webkit-backface-visibility: hidden;
-  will-change: transform;
+@media screen and (max-width: 768px) {
+  .image-wrapper-all {
+    position: absolute;
+    top: 15%;
+    width: calc(100% - 3rem);
+    height: 50%;
+    left: 1.5rem;
+    overflow: hidden;
+    -webkit-backface-visibility: hidden;
+    will-change: transform;
+  }
+  .image-left {
+    position: absolute;
+    left: 0;
+    width: calc(100vw - 3rem);
+    height: 100%;
+    background-size: cover;
+    transition: all 0.4s;
+    will-change: transform;
+    background-position: 50%;
+  }
+  .image-right {
+    position: absolute;
+    bottom: 0;
+    left: auto;
+    right: 0;
+    width: calc(100vw - 3rem);
+    height: 100%;
+    background-size: cover;
+    transition: all 0.4s;
+    will-change: transform;
+    background-position: 50%;
+  }
+  .transition-container {
+    position: absolute;
+    bottom: auto;
+    left: 50%;
+    top: 70%;
+    display: flex;
+    overflow: hidden;
+    transform: translateX(-50%);
+  }
+}
+@media screen and (min-width: 769px) {
+  .image-wrapper-all {
+    position: absolute;
+    width: 70%;
+    left: 15%;
+    top: 20%;
+    height: 60%;
+    overflow: hidden;
+    -webkit-backface-visibility: hidden;
+    will-change: transform;
+  }
+  .image-left {
+    position: absolute;
+    left: 0;
+    width: 70vw;
+    height: 100%;
+    background-size: cover;
+    transform: translateY(-50px);
+    transition: all 0.4s;
+    will-change: transform;
+    background-position: center 50px;
+  }
+  .image-right {
+    position: absolute;
+    bottom: 0;
+    left: auto;
+    right: 0;
+    transform: translateY(50px);
+    width: 70vw;
+    height: 100%;
+    background-size: cover;
+    transition: all 0.4s;
+    will-change: transform;
+    background-position: center -50px;
+  }
+  .transition-container {
+    position: absolute;
+    bottom: calc(2rem + 4vw);
+    left: 3rem;
+    display: flex;
+    overflow: hidden;
+    z-index: 1;
+  }
+}
+@media screen and (min-width: 1025px) {
+  .image-wrapper-all {
+    position: absolute;
+    left: 25%;
+    top: 15%;
+    width: 50%;
+    height: 70%;
+    overflow: hidden;
+    -webkit-backface-visibility: hidden;
+    will-change: transform;
+  }
+  .image-left {
+    position: absolute;
+    left: 0;
+    width: 50vw;
+    height: 100%;
+    background-size: cover;
+    background-position: 50%;
+    transform: translateY(-50px);
+    transition: all 0.4s;
+    will-change: transform;
+  }
+  .image-right {
+    position: absolute;
+    bottom: 0;
+    left: auto;
+    right: 0;
+    transform: translateY(50px);
+    width: 50vw;
+    height: 100%;
+    background-size: cover;
+    background-position: 50%;
+    transition: all 0.4s;
+    will-change: transform;
+  }
+  .image-left-active {
+    background-position: center 50px;
+  }
+  .image-right-active {
+    background-position: center -50px;
+  }
+  .transition-container {
+    position: absolute;
+    bottom: calc(2rem + 4vw);
+    left: 3rem;
+    display: flex;
+    overflow: hidden;
+    z-index: 1;
+  }
 }
 
 .image-wrapper-left {
@@ -301,43 +418,6 @@ onMounted(() => {
   overflow: hidden;
   will-change: transform;
 }
-
-.image-left {
-  background-image: url(https://skuwana.info/wp-content/uploads/2019/02/sean-o-KMn4VEeEPR8-unsplash.jpg);
-  position: absolute;
-  left: 0;
-  width: 50vw;
-  height: 100%;
-  background-size: cover;
-  background-position: 50%;
-  transform: translateY(-50px);
-  transition: all 0.4s;
-  will-change: transform;
-}
-
-.image-right {
-  background-image: url(https://skuwana.info/wp-content/uploads/2019/02/sean-o-KMn4VEeEPR8-unsplash.jpg);
-  position: absolute;
-  bottom: 0;
-  left: auto;
-  right: 0;
-  transform: translateY(50px);
-  width: 50vw;
-  height: 100%;
-  background-size: cover;
-  background-position: 50%;
-  transition: all 0.4s;
-  will-change: transform;
-}
-
-.image-left-active {
-  background-position: center 50px;
-}
-
-.image-right-active {
-  background-position: center -50px;
-}
-
 .slide-enter-active {
   transition: transform 0.5s cubic-bezier(0.5, 0, 0.75, 0) 1s;
 }

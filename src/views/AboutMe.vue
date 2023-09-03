@@ -117,31 +117,103 @@ onMounted(() => {
   left: 50vw;
   z-index: -2;
 }
-.content {
-  margin-top: 100vh;
-  /*
-  padding: 11vw 0 0;
-  background-color: #ecece7;
-  */
-  clear: both;
-  margin-top: 100vh;
-  width: 100vw;
-  padding: 11vw 0 0;
-  background-color: #121212;
-  clear: both;
+@media screen and (max-width: 768px) {
+  .content {
+    margin: 74vw auto 0;
+    width: 100vw;
+    padding-top: 14vw;
+    background-color: #121212;
+  }
+  .content-inner {
+    width: 79vw;
+    margin: 0 auto;
+    padding-bottom: 18.7vw;
+    border-bottom: 1px solid #9c9c9b;
+  }
+  .profile-ruby {
+    font-weight: 900;
+    color: #fff;
+    font-size: 2.4vw;
+    font-weight: bold;
+    letter-spacing: 0.1em;
+  }
+  .profile-left {
+    color: #fff;
+    font-size: 6.4vw;
+    letter-spacing: 0.05em;
+  }
+  .profile-right {
+    font-size: 2.4vw;
+    letter-spacing: 0.1em;
+    line-height: 2.5em;
+    border-left: 1px solid #9c9c9b;
+    color: #9c9c9b;
+    padding-left: 2.5vw;
+  }
+  .profile-sentence {
+    font-family: 游ゴシック体, 'Yu Gothic', YuGothic, 'ヒラギノ角ゴシック Pro',
+      'Hiragino Kaku Gothic Pro', メイリオ, Meiryo, Osaka, 'ＭＳ Ｐゴシック', 'MS PGothic',
+      sans-serif;
+    color: #fff;
+    font-size: 2.9vw;
+    letter-spacing: 0.1em;
+    line-height: 2.5em;
+  }
 }
-.content-inner {
-  width: 72vw;
-  margin: 0 auto;
-  padding-bottom: 18.7vw;
-  border-bottom: 1px solid #9c9c9b;
+@media screen and (min-width: 769px) {
+  .content {
+    margin: 74vw auto 0;
+    width: 100vw;
+    padding-top: 14vw;
+    background-color: #121212;
+  }
+  .content-inner {
+    width: 72vw;
+    margin: 0 auto;
+    padding-bottom: 18.7vw;
+    border-bottom: 1px solid #9c9c9b;
+  }
+  .profile-ruby {
+    font-weight: 900;
+    color: #fff;
+    font-size: 1.5vw;
+    font-weight: bold;
+    letter-spacing: 0.1em;
+  }
+  .profile-left {
+    color: #fff;
+    font-size: 4vw;
+    letter-spacing: 0.1em;
+  }
+  .profile-right {
+    font-size: 1.1vw;
+    letter-spacing: 0.1em;
+    line-height: 4vw;
+    border-left: 1px solid #9c9c9b;
+    color: #9c9c9b;
+    padding-left: 2.5vw;
+  }
+  .profile-sentence {
+    font-size: 1.1vw;
+    font-family: 游ゴシック体, 'Yu Gothic', YuGothic, 'ヒラギノ角ゴシック Pro',
+      'Hiragino Kaku Gothic Pro', メイリオ, Meiryo, Osaka, 'ＭＳ Ｐゴシック', 'MS PGothic',
+      sans-serif;
+    color: #fff;
+    font-size: 1.1vw;
+    letter-spacing: 0.1em;
+    line-height: 2.5em;
+  }
 }
-.profile-ruby {
-  font-weight: 900;
-  color: #fff;
-  font-size: 1.5vw;
-  font-weight: bold;
-  letter-spacing: 0.1em;
+@media screen and (min-width: 1024px) {
+  .content {
+    margin-top: 100vh;
+    clear: both;
+    margin-top: 100vh;
+    width: 100vw;
+    padding: 11vw 0 0;
+    background-color: #121212;
+    clear: both;
+  }
 }
 .profile-name-wrapper {
   margin: 1vw 0 7.5vw;
@@ -151,33 +223,6 @@ onMounted(() => {
   justify-content: space-between;
   align-items: center;
 }
-.profile-left {
-  color: #fff;
-  font-size: 4vw;
-  letter-spacing: 0.1em;
-}
-.profile-right {
-  font-size: 1.1vw;
-  letter-spacing: 0.1em;
-  line-height: 4vw;
-  border-left: 1px solid #9c9c9b;
-  color: #9c9c9b;
-  padding-left: 2.5vw;
-}
-.profile-sentence {
-  /* 
-  font-size: 1.1vw;
-  font-family: 游ゴシック体, 'Yu Gothic', YuGothic, 'ヒラギノ角ゴシック Pro', 'Hiragino Kaku Gothic Pro', メイリオ, Meiryo, Osaka, 'ＭＳ Ｐゴシック', 'MS PGothic', sans-serif;
-  line-height: 2.2em;
-  text-align: justify;
-  letter-spacing: .075em;
-  */
-  color: #fff;
-  font-size: 1.1vw;
-  letter-spacing: 0.1em;
-  line-height: 2.5em;
-}
-
 .footer-wrapper {
   width: 100vw;
   height: 20vw;

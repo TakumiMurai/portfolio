@@ -148,42 +148,80 @@ onMounted(() => {
   left: 50vw;
   z-index: -2;
 }
-.content {
-  margin-top: 100vh;
-  /*
-  padding: 11vw 0 0;
-  background-color: #ecece7;
-  */
-  clear: both;
-  margin-top: 100vh;
-  width: 100vw;
-  padding: 11vw 0 0;
-  background-color: #121212;
-  clear: both;
+@media screen and (max-width: 768px) {
+  .content {
+    margin: 74vw auto 0;
+    width: 100vw;
+    padding-top: 14vw;
+    background-color: #121212;
+  }
+  .content-inner {
+    width: 79vw;
+    margin: 0 auto;
+    padding-bottom: 18.7vw;
+    border-bottom: 1px solid #9c9c9b;
+  }
+  .skill-wrapper {
+    width: 100%;
+    display: flex;
+    margin-bottom: 10vh;
+  }
+  .skill-icon {
+    width: 10vw;
+  }
+  .skill-title {
+    font-size: 3.3vw;
+    margin-left: 8px;
+    font-weight: 600;
+    color: #fff;
+  }
+  .skill-content {
+    font-size: 2.9vw;
+    margin-left: 16px;
+  }
 }
-.content-inner {
-  width: 72vw;
-  margin: 0 auto;
-  padding-bottom: 18.7vw;
-  border-bottom: 1px solid #9c9c9b;
+@media screen and (min-width: 769px) {
+  .content {
+    margin: 74vw auto 0;
+    width: 100vw;
+    padding-top: 14vw;
+    background-color: #121212;
+  }
+  .content-inner {
+    width: 72vw;
+    margin: 0 auto;
+    padding-bottom: 18.7vw;
+    border-bottom: 1px solid #9c9c9b;
+  }
+  .skill-wrapper {
+    width: 100%;
+    display: flex;
+    margin-bottom: 5vh;
+  }
+  .skill-icon {
+    width: 5vw;
+  }
+  .skill-title {
+    font-size: 1.5vw;
+    margin-left: 8px;
+    font-weight: 600;
+    color: #fff;
+  }
+  .skill-content {
+    font-size: 1.1vw;
+    margin-left: 16px;
+  }
 }
-.skill-wrapper {
-  width: 100%;
-  display: flex;
-  margin-bottom: 5vh;
-}
-.skill-icon {
-  width: 5vw;
-}
-.skill-title {
-  font-size: 1.5vw;
-  margin-left: 8px;
-  font-weight: 600;
-  color: #fff;
-}
-.skill-content {
-  font-size: 1.5vw;
-  margin-left: 16px;
+@media screen and (min-width: 1024px) {
+  .content {
+    margin-top: 100vh;
+    clear: both;
+    margin-top: 100vh;
+    width: 100vw;
+    padding: 11vw 0 0;
+    background-color: #121212;
+    clear: both;
+  }
 }
 .footer-wrapper {
   width: 100vw;

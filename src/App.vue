@@ -8,7 +8,7 @@ const showSplashScreen = ref(true)
 onMounted(() => {
   setTimeout(() => {
     showSplashScreen.value = false
-  }, 6000)
+  }, 4000)
 })
 </script>
 
@@ -21,6 +21,7 @@ onMounted(() => {
 html,
 body,
 a {
+  overflow: hidden;
   background-color: #121212;
 }
 
