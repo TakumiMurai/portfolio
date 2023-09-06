@@ -15,11 +15,24 @@ import ramenImage from '@/assets/ramen.jpg'
 const isActiveOverlay: Ref<boolean> = ref(true)
 
 const images: Ref<{ src: string; caption: string }[]> = ref([
-  { src: animeImage, caption: 'ここに説明を入力' },
-  { src: comicImage, caption: 'ここに説明を入力' },
-  { src: gameImage, caption: 'ここに説明を入力' },
-  { src: guitarImage, caption: 'ここに説明を入力' },
-  { src: ramenImage, caption: 'ここに説明を入力' }
+  {
+    src: animeImage,
+    caption: 'アニメ鑑賞が好きです。画像は最も好きなアニメのキルラキルのゲーム（特別版）。'
+  },
+  { src: comicImage, caption: '漫画は1000冊以上所持しています。置き場所に困っています。' },
+  {
+    src: gameImage,
+    caption:
+      'ゲームに寝中すると時間を忘れてプレイしてしまいます。最近はもっぱらPCでゲームをしています。'
+  },
+  {
+    src: guitarImage,
+    caption: '大学から始めたギター。今でも月1回のペースで仲間とライブをしています。'
+  },
+  {
+    src: ramenImage,
+    caption: '食べ物、特にラーメンが好きです。画像は近所のよく行くラーメン屋です。'
+  }
 ])
 
 const onClick = () => {
@@ -40,19 +53,27 @@ onMounted(() => {
   </transition>
   <img :src="myFavoritePicture" class="header-img" />
   <div class="content">
-    <div class="content-inner">
-      <div v-for="image in images">
+    <ul class="content-inner">
+      <li v-for="image in images">
         <FadeInAnimation>
-          <CaptionImage :imageSource="image.src" :caption="image.caption"></CaptionImage>
+          <CaptionImage
+            class="caption-image"
+            :imageSource="image.src"
+            :caption="image.caption"
+          ></CaptionImage>
         </FadeInAnimation>
-      </div>
-    </div>
+      </li>
+    </ul>
   </div>
 
   <Footer></Footer>
 </template>
 
 <style scoped lang="scss">
+ul {
+  list-style-type: none;
+  padding-inline: 0;
+}
 .overlay-green {
   position: fixed;
   bottom: 0;
@@ -70,7 +91,7 @@ onMounted(() => {
 }
 .overlay-green-enter-from,
 .overlay-green-leave-to {
-  transform: translateY(100%);
+  height: 0;
 }
 .overlay-black {
   position: fixed;
@@ -89,7 +110,7 @@ onMounted(() => {
 }
 .overlay-black-enter-from,
 .overlay-black-leave-to {
-  transform: translateY(100%);
+  height: 0;
 }
 .header-img {
   width: 100vw;
@@ -107,67 +128,57 @@ onMounted(() => {
   left: 50vw;
   z-index: -2;
 }
-.content {
-  margin-top: 100vh;
-  /*
-  padding: 11vw 0 0;
-  background-color: #ecece7;
-  */
-  clear: both;
-  margin-top: 100vh;
-  width: 100vw;
-  padding: 11vw 0 0;
-  background-color: #121212;
-  clear: both;
+@media screen and (max-width: 768.98px) {
+  .content {
+    margin: 74vw auto 0;
+    width: 100vw;
+    padding-top: 14vw;
+    background-color: #121212;
+  }
+  .content-inner {
+    width: 79vw;
+    margin: 0 auto;
+    padding-bottom: 18.7vw;
+    border-bottom: 1px solid #9c9c9b;
+  }
+  .caption-image {
+    width: 100%;
+    margin-bottom: 13vw;
+  }
 }
-.content-inner {
-  width: 72vw;
-  margin: 0 auto;
-  padding-bottom: 18.7vw;
-  border-bottom: 1px solid #9c9c9b;
+@media screen and (min-width: 769px) {
+  .content {
+    margin: 74vw auto 0;
+    width: 100vw;
+    padding-top: 14vw;
+    background-color: #121212;
+  }
+  .content-inner {
+    width: 72vw;
+    margin: 0 auto;
+    padding-bottom: 18.7vw;
+    border-bottom: 1px solid #9c9c9b;
+    display: flex;
+    -webkit-box-pack: justify;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+  .caption-image {
+    width: 32vw;
+    margin-bottom: 13vw;
+  }
 }
-.profile-ruby {
-  font-weight: 900;
-  color: #fff;
-  font-size: 1.5vw;
-  font-weight: bold;
-  letter-spacing: 0.1em;
+@media screen and (min-width: 1024px) {
+  .content {
+    margin-top: 100vh;
+    clear: both;
+    margin-top: 100vh;
+    width: 100vw;
+    padding: 11vw 0 0;
+    background-color: #121212;
+    clear: both;
+  }
 }
-.profile-name-wrapper {
-  margin: 1vw 0 7.5vw;
-  height: 4vw;
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.profile-left {
-  color: #fff;
-  font-size: 4vw;
-  letter-spacing: 0.1em;
-}
-.profile-right {
-  font-size: 1.1vw;
-  letter-spacing: 0.1em;
-  line-height: 4vw;
-  border-left: 1px solid #9c9c9b;
-  color: #9c9c9b;
-  padding-left: 2.5vw;
-}
-.profile-sentence {
-  /* 
-  font-size: 1.1vw;
-  font-family: 游ゴシック体, 'Yu Gothic', YuGothic, 'ヒラギノ角ゴシック Pro', 'Hiragino Kaku Gothic Pro', メイリオ, Meiryo, Osaka, 'ＭＳ Ｐゴシック', 'MS PGothic', sans-serif;
-  line-height: 2.2em;
-  text-align: justify;
-  letter-spacing: .075em;
-  */
-  color: #fff;
-  font-size: 1.1vw;
-  letter-spacing: 0.1em;
-  line-height: 2.5em;
-}
-
 .footer-wrapper {
   width: 100vw;
   height: 20vw;

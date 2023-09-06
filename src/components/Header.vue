@@ -23,7 +23,7 @@ const onClickHome = () => {
     position: fixed;
     display: flex;
     justify-content: space-between;
-    z-index: 100;
+    z-index: 1;
   }
   &-left {
     font-weight: 700;

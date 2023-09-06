@@ -208,7 +208,7 @@ onMounted(() => {
 }
 .overlay-green-enter-from,
 .overlay-green-leave-to {
-  transform: translateY(100%);
+  height: 0;
 }
 .overlay-black {
   position: absolute;
@@ -227,7 +227,7 @@ onMounted(() => {
 }
 .overlay-black-enter-from,
 .overlay-black-leave-to {
-  transform: translateY(100%);
+  height: 0;
 }
 .pageContent {
   position: relative;
@@ -255,7 +255,7 @@ onMounted(() => {
 .list-leave-to {
   transform: translateY(calc(-1.3rem - 4vw));
 }
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 768.98px) {
   .image-wrapper-all {
     position: absolute;
     top: 15%;
@@ -425,7 +425,7 @@ onMounted(() => {
   transition: transform 0.5s cubic-bezier(0.5, 0, 0.75, 0);
 }
 .slide-enter-from {
-  transform: translateY(100%);
+  height: 0;
 }
 .slide-leave-to {
   transform: translateY(-100%);
@@ -437,7 +437,7 @@ onMounted(() => {
   transition: transform 0.5s cubic-bezier(0.5, 0, 0.75, 0) 0.1s;
 }
 .slide-delay-enter-from {
-  transform: translateY(100%);
+  height: 0;
 }
 .slide-delay-leave-to {
   transform: translateY(-100%);

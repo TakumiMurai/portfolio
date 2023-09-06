@@ -1,7 +1,7 @@
 <template>
-  <div class="footer-wrapper">
+  <footer class="footer-wrapper">
     <div class="footer-inner">TAKUMI MURAI</div>
-  </div>
+  </footer>
 </template>
 
 <style scoped lang="scss">

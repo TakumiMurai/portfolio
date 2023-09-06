@@ -32,7 +32,7 @@ const onMouseleave = () => {
 }
 
 .image {
-  width: 100px;
+  width: 100%;
   height: auto;
   transition: filter 0.3s ease-in-out;
 }

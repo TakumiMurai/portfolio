@@ -29,33 +29,28 @@ onMounted(() => {
   <div class="content">
     <div class="content-inner">
       <FadeInAnimation>
-        <div class="profile-ruby">村井 拓海</div>
+        <ruby class="profile-ruby">村井 拓海</ruby>
       </FadeInAnimation>
       <FadeInAnimation>
         <div class="profile-name-wrapper">
-          <div class="profile-left">TAKUMI MURAI</div>
-          <div class="profile-right">ENGINEER</div>
+          <h2 class="profile-left">TAKUMI MURAI</h2>
+          <span class="profile-right">ENGINEER</span>
         </div>
       </FadeInAnimation>
       <FadeInAnimation>
-        <div class="profile-sentence">
+        <p class="profile-sentence">
           1998年、埼玉県草加市生まれ。
-          <br />
           <br />
           慶應義塾大学理工学部を卒業後、2021年に開発職としてSky株式会社に入社。
           <br />
-          <br />
           入社後、アサインされたチームでフロントエンドエンジニアとしてUI実装を行ったのち、チーム異動。フルスタックエンジニアとしてモバイルアプリ開発チームでフロントエンドからバックエンドまでの設計・実装・テストを行う。
-          <br />
           <br />
           1年ほどの活動後、主体性の高さや技術力を評価され現在のチームに異動。
           <br />
-          <br />
           1万人ほどの規模の業務用アプリの保守・改善活動を行うチームのメンバーとして活動する。
           <br />
-          <br />
           現在のチームでは技術キャッチアップ力を評価され、画面だけでなくバックエンドに関わる部分の改善タスクを実施。
-        </div>
+        </p>
       </FadeInAnimation>
     </div>
   </div>
@@ -80,7 +75,7 @@ onMounted(() => {
 }
 .overlay-green-enter-from,
 .overlay-green-leave-to {
-  transform: translateY(100%);
+  height: 0;
 }
 .overlay-black {
   position: fixed;
@@ -99,7 +94,7 @@ onMounted(() => {
 }
 .overlay-black-enter-from,
 .overlay-black-leave-to {
-  transform: translateY(100%);
+  height: 0;
 }
 .header-img {
   width: 100vw;
@@ -117,7 +112,7 @@ onMounted(() => {
   left: 50vw;
   z-index: -2;
 }
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 768.98px) {
   .content {
     margin: 74vw auto 0;
     width: 100vw;

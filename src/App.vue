@@ -25,6 +25,10 @@ a {
   background-color: #121212;
 }
 
+ul {
+  list-style-type: none;
+}
+
 .expand-enter-active,
 .expand-leave-active {
   transition: transform 0.5s ease-in-out, background-color 0.5s ease-in-out;

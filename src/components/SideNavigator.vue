@@ -30,7 +30,7 @@ const handleClick = (index: number): void => {
 </template>
 
 <style scoped lang="scss">
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 768.98px) {
   .wrapperSideNavigator {
     display: none;
   }

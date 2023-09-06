@@ -7,7 +7,6 @@ import Footer from '@/components/Footer.vue'
 import iconCss from '@/assets/icons8-css.svg'
 import iconHtml from '@/assets/icons8-html.svg'
 import iconJavascript from '@/assets/icons8-javascript.svg'
-import iconJquery from '@/assets/icons8-jquery.svg'
 import iconReact from '@/assets/icons8-react-native.svg'
 import iconTypescript from '@/assets/icons8-typescript.svg'
 import iconVue from '@/assets/icons8-vue-js.svg'
@@ -20,42 +19,38 @@ const skills = ref([
   {
     name: 'HTML',
     img: iconHtml,
-    content: 'ここに説明を入力'
+    content: '基本的なコーディング・タグの使用が可能。レビューの実施経験あり。'
   },
   {
     name: 'CSS',
     img: iconCss,
-    content: 'ここに説明を入力'
+    content: '基本的なコーディングが可能。SCSS・BEMの経験あり。レビューの実施経験あり。'
   },
   {
     name: 'JavaScript',
     img: iconJavascript,
-    content: 'ここに説明を入力'
-  },
-  {
-    name: 'jQuery',
-    img: iconJquery,
-    content: 'ここに説明を入力'
+    content: '最適な実装・設計が可能。レビューの実施経験あり。'
   },
   {
     name: 'ReactNative',
     img: iconReact,
-    content: 'ここに説明を入力'
+    content: '基本的なコーディングが可能。'
   },
   {
     name: 'TypeScript',
     img: iconTypescript,
-    content: 'ここに説明を入力'
+    content: '基本的なコーディングが可能。'
   },
   {
     name: 'Vue.js',
     img: iconVue,
-    content: 'ここに説明を入力'
+    content: '最適な実装・設計が可能。Vue2・3の双方の経験あり。レビューの実施経験あり。'
   },
   {
     name: 'AWS',
     img: iconAws,
-    content: 'ここに説明を入力'
+    content:
+      '環境構築や、簡単な機能のシステムデザインが可能。API Gateway・Lambda・SES・SQS・DynamoDBなど複数のサービスの設計・デプロイ経験あり。'
   }
 ])
 
@@ -111,7 +106,7 @@ onMounted(() => {
 }
 .overlay-green-enter-from,
 .overlay-green-leave-to {
-  transform: translateY(100%);
+  height: 0;
 }
 .overlay-black {
   position: fixed;
@@ -130,7 +125,7 @@ onMounted(() => {
 }
 .overlay-black-enter-from,
 .overlay-black-leave-to {
-  transform: translateY(100%);
+  height: 0;
 }
 .header-img {
   width: 100vw;
@@ -148,7 +143,7 @@ onMounted(() => {
   left: 50vw;
   z-index: -2;
 }
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 768.98px) {
   .content {
     margin: 74vw auto 0;
     width: 100vw;
