@@ -201,7 +201,6 @@ ul {
   }
   .caption-image {
     width: 32vw;
-    margin-bottom: 13vw;
   }
   .page-title {
     position: absolute;
@@ -219,6 +218,10 @@ ul {
       line-height: 0.9em;
       transform-origin: center left;
     }
+  }
+  .caption-sp {
+    width: 100%;
+    margin-bottom: 13vw;
   }
 }
 @media screen and (min-width: 1024px) {
@@ -247,6 +250,13 @@ ul {
       line-height: 0.9em;
       transform-origin: center left;
     }
+  }
+  .caption-image {
+    width: 32vw;
+    margin-bottom: 13vw;
+  }
+  .caption-sp {
+    display: none;
   }
 }
 .AppFooter-wrapper {

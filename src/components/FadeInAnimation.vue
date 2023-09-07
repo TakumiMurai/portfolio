@@ -1,9 +1,3 @@
-<template>
-  <div :class="{ fadeIn: visible, hidden: !visible }" ref="targetElement">
-    <slot></slot>
-  </div>
-</template>
-
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue'
 
@@ -28,6 +22,12 @@ onUnmounted(() => {
   window.removeEventListener('scroll', onScroll)
 })
 </script>
+
+<template>
+  <div :class="{ fadeIn: visible, hidden: !visible }" ref="targetElement">
+    <slot></slot>
+  </div>
+</template>
 
 <style scoped>
 .hidden {
