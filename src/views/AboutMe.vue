@@ -2,8 +2,8 @@
 import { ref, onMounted } from 'vue'
 import type { Ref } from 'vue/dist/vue.js'
 import FadeInAnimation from '@/components/FadeInAnimation.vue'
-import Header from '@/components/Header.vue'
-import Footer from '@/components/Footer.vue'
+import AppHeader from '@/components/AppHeader.vue'
+import AppFooter from '@/components/AppFooter.vue'
 import aboutMePicture from '@/assets/about-me.jpg'
 
 const isActiveOverlay: Ref<boolean> = ref(true)
@@ -18,7 +18,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <Header @click="onClick"></Header>
+  <AppHeader @click="onClick"></AppHeader>
   <transition name="overlay-green">
     <div class="overlay-green" v-if="isActiveOverlay"></div>
   </transition>
@@ -26,6 +26,9 @@ onMounted(() => {
     <div class="overlay-black" v-if="isActiveOverlay"></div>
   </transition>
   <img :src="aboutMePicture" class="header-img" />
+  <div class="page-title">
+    <span class="page-title-span">ABOUT ME</span>
+  </div>
   <div class="content">
     <div class="content-inner">
       <FadeInAnimation>
@@ -54,10 +57,10 @@ onMounted(() => {
       </FadeInAnimation>
     </div>
   </div>
-  <Footer></Footer>
+  <AppFooter></AppFooter>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 .overlay-green {
   position: fixed;
   bottom: 0;
@@ -154,6 +157,23 @@ onMounted(() => {
     letter-spacing: 0.1em;
     line-height: 2.5em;
   }
+  .page-title {
+    position: absolute;
+    top: 20vh;
+    left: 50vw;
+    width: 100%;
+    text-align: center;
+    transform: translate(-50%, -50%);
+    z-index: -2;
+    &-span {
+      display: block;
+      color: #fff;
+      font-weight: 900;
+      font-size: calc(1.5rem + 5vw);
+      line-height: 0.9em;
+      transform-origin: center left;
+    }
+  }
 }
 @media screen and (min-width: 769px) {
   .content {
@@ -198,7 +218,25 @@ onMounted(() => {
     letter-spacing: 0.1em;
     line-height: 2.5em;
   }
+  .page-title {
+    position: absolute;
+    top: 30vh;
+    left: 50vw;
+    width: 100%;
+    text-align: center;
+    transform: translate(-50%, -50%);
+    z-index: -2;
+    &-span {
+      display: block;
+      color: #fff;
+      font-weight: 900;
+      font-size: calc(1.5rem + 5vw);
+      line-height: 0.9em;
+      transform-origin: center left;
+    }
+  }
 }
+
 @media screen and (min-width: 1024px) {
   .content {
     margin-top: 100vh;
@@ -208,6 +246,23 @@ onMounted(() => {
     padding: 11vw 0 0;
     background-color: #121212;
     clear: both;
+  }
+  .page-title {
+    position: absolute;
+    top: 50vh;
+    left: 50vw;
+    width: 100%;
+    text-align: center;
+    transform: translate(-50%, -50%);
+    z-index: -2;
+    &-span {
+      display: block;
+      color: #fff;
+      font-weight: 900;
+      font-size: calc(1.5rem + 5vw);
+      line-height: 0.9em;
+      transform-origin: center left;
+    }
   }
 }
 .profile-name-wrapper {

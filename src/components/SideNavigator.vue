@@ -1,6 +1,6 @@
 <script setup lang="ts">
 interface Props {
-  contentNameList: Array<String>
+  pageContents: Array<{ title: string; pageName: string; src: string }>
   currentContentIndex: number
 }
 interface Emits {
@@ -19,8 +19,8 @@ const handleClick = (index: number): void => {
     <div
       class="navigatorContent"
       :class="{ 'navigatorContent-active': currentContentIndex === index }"
-      v-for="(_, index) in props.contentNameList"
-      :key="index"
+      v-for="(pageContent, index) in props.pageContents"
+      :key="pageContent.title"
       @click="handleClick(index)"
     >
       <div class="navigatorIndex">{{ '0' + (index + 1) }}</div>

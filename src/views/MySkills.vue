@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import type { Ref } from 'vue/dist/vue.js'
-import Header from '@/components/Header.vue'
+import AppHeader from '@/components/AppHeader.vue'
 import FadeInAnimation from '@/components/FadeInAnimation.vue'
-import Footer from '@/components/Footer.vue'
+import AppFooter from '@/components/AppFooter.vue'
 import iconCss from '@/assets/icons8-css.svg'
 import iconHtml from '@/assets/icons8-html.svg'
 import iconJavascript from '@/assets/icons8-javascript.svg'
@@ -63,18 +63,20 @@ onMounted(() => {
 })
 </script>
 <template>
-  <Header @click="onClick"></Header>
+  <AppHeader @click="onClick"></AppHeader>
   <transition name="overlay-green">
     <div class="overlay-green" v-if="isActiveOverlay"></div>
   </transition>
   <transition name="overlay-black">
     <div class="overlay-black" v-if="isActiveOverlay"></div>
   </transition>
-  <img :src="mySkillsPicture" class="header-img" />
-  <div class="page-title">MY SKILLS</div>
+  <img :src="mySkillsPicture" class="AppHeader-img" />
+  <div class="page-title">
+    <span class="page-title-span">MY SKILLS</span>
+  </div>
   <div class="content">
     <div class="content-inner">
-      <div v-for="skill in skills">
+      <div v-for="skill in skills" :key="skill.name">
         <FadeInAnimation class="skill-wrapper">
           <img class="skill-icon" :src="skill.img" />
           <div class="skill-text-wrapper">
@@ -85,7 +87,7 @@ onMounted(() => {
       </div>
     </div>
   </div>
-  <Footer></Footer>
+  <AppFooter></AppFooter>
 </template>
 
 <style scoped lang="scss">
@@ -127,20 +129,10 @@ onMounted(() => {
 .overlay-black-leave-to {
   height: 0;
 }
-.header-img {
+.AppHeader-img {
   width: 100vw;
   position: fixed;
   top: 0;
-  z-index: -2;
-}
-.page-title {
-  position: fixed;
-  font-weight: 900;
-  font-size: calc(1.3rem + 4vw);
-  color: #121212;
-  transform: translate(-50%, -50%);
-  top: 50vh;
-  left: 50vw;
   z-index: -2;
 }
 @media screen and (max-width: 768.98px) {
@@ -174,6 +166,23 @@ onMounted(() => {
     font-size: 2.9vw;
     margin-left: 16px;
   }
+  .page-title {
+    position: absolute;
+    top: 20vh;
+    left: 50vw;
+    width: 100%;
+    text-align: center;
+    transform: translate(-50%, -50%);
+    z-index: -2;
+    &-span {
+      display: block;
+      color: #fff;
+      font-weight: 900;
+      font-size: calc(1.5rem + 5vw);
+      line-height: 0.9em;
+      transform-origin: center left;
+    }
+  }
 }
 @media screen and (min-width: 769px) {
   .content {
@@ -206,6 +215,23 @@ onMounted(() => {
     font-size: 1.1vw;
     margin-left: 16px;
   }
+  .page-title {
+    position: absolute;
+    top: 30vh;
+    left: 50vw;
+    width: 100%;
+    text-align: center;
+    transform: translate(-50%, -50%);
+    z-index: -2;
+    &-span {
+      display: block;
+      color: #fff;
+      font-weight: 900;
+      font-size: calc(1.5rem + 5vw);
+      line-height: 0.9em;
+      transform-origin: center left;
+    }
+  }
 }
 @media screen and (min-width: 1024px) {
   .content {
@@ -217,15 +243,32 @@ onMounted(() => {
     background-color: #121212;
     clear: both;
   }
+  .page-title {
+    position: absolute;
+    top: 50vh;
+    left: 50vw;
+    width: 100%;
+    text-align: center;
+    transform: translate(-50%, -50%);
+    z-index: -2;
+    &-span {
+      display: block;
+      color: #fff;
+      font-weight: 900;
+      font-size: calc(1.5rem + 5vw);
+      line-height: 0.9em;
+      transform-origin: center left;
+    }
+  }
 }
-.footer-wrapper {
+.AppFooter-wrapper {
   width: 100vw;
   height: 20vw;
   display: block;
   background-color: #121212;
   position: relative;
 }
-.footer-inner {
+.AppFooter-inner {
   color: #fff;
   font-size: 1.3vw;
   font-family: 'PT Sans Narrow', sans-serif;

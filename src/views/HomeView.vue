@@ -6,23 +6,26 @@ import router from '@/router'
 import aboutMePicture from '@/assets/about-me.jpg'
 import mySkillsPicture from '@/assets/my-skills.jpg'
 import myFavoritePicture from '@/assets/my-favorite.jpg'
+
+const LETTER_ANIMATION_INTERVAL_TIME = 20
+
 // 表示するページのインデックス
 const currentContentIndex: Ref<number> = ref(0)
 const char: Ref<Array<string>> = ref([])
-const imageSrcArray = [
+const pageContents: Ref<Array<{ title: string; pageName: string; src: string }>> = ref([
   {
+    title: 'ABOUT ME',
     pageName: 'aboutMe',
     src: aboutMePicture
   },
-  { pageName: 'mySkills', src: mySkillsPicture },
+  { title: 'MY SKILLS', pageName: 'mySkills', src: mySkillsPicture },
   {
+    title: 'MY FAVORITE',
     pageName: 'myFavorite',
     src: myFavoritePicture
   }
-]
-const LETTER_ANIMATION_INTERVAL_TIME = 20
-// ページ名リスト
-const contentNameList: Array<String> = ['ABOUT ME', 'MY SKILLS', 'MY FAVORITE']
+])
+const isMouseOver = ref(false)
 const canClick: Ref<boolean> = ref(true)
 const canScroll: Ref<boolean> = ref(true)
 const isActiveOverlay: Ref<boolean> = ref(true)
@@ -31,7 +34,7 @@ const isActiveOverlay: Ref<boolean> = ref(true)
 const handleWheel = (event: WheelEvent) => {
   if (canScroll.value) {
     canScroll.value = false
-    const totalContent: number = contentNameList.length
+    const totalContent: number = pageContents.value.length
     hide()
     if (event.deltaY > 0) {
       currentContentIndex.value = (currentContentIndex.value + 1) % totalContent
@@ -48,8 +51,7 @@ const handleWheel = (event: WheelEvent) => {
 }
 
 const show = () => {
-  const text = contentNameList[currentContentIndex.value]
-  console.log(currentContentIndex.value)
+  const text = pageContents.value[currentContentIndex.value].title
 
   const letters = text.split('')
   const callback = (letter: string) => {
@@ -60,8 +62,7 @@ const show = () => {
 }
 
 const hide = () => {
-  const text = contentNameList[currentContentIndex.value]
-  console.log(currentContentIndex.value)
+  const text = pageContents.value[currentContentIndex.value].title
   const letters = text.split('')
 
   const callback = () => {
@@ -100,8 +101,6 @@ const handleClick = (index: number): void => {
   }
 }
 
-const isMouseOver = ref(false)
-
 const onMouseOver = () => {
   isMouseOver.value = true
 }
@@ -133,14 +132,15 @@ onMounted(() => {
     </transition>
     <div @wheel="handleWheel">
       <SideNavigator
-        :contentNameList="contentNameList"
+        :pageContents="pageContents"
         :currentContentIndex="currentContentIndex"
         @onClickNavigator="handleClick"
       ></SideNavigator>
       <div
         class="pageContent"
-        v-for="(_, index) in contentNameList"
+        v-for="(pageContent, index) in pageContents"
         v-show="currentContentIndex === index"
+        :key="pageContent.title"
       >
         <div class="transition-container">
           <transition-group name="list">
@@ -154,29 +154,29 @@ onMounted(() => {
         class="image-wrapper-all"
         @mouseover="onMouseOver"
         @mouseleave="onMouseLeave"
-        @click="onclick(imageSrcArray[currentContentIndex].pageName)"
+        @click="onclick(pageContents[currentContentIndex].pageName)"
       >
         <div class="image-wrapper-left">
           <transition-group name="slide">
             <div
-              v-for="(image, index) in imageSrcArray"
-              :key="index"
+              v-for="(pageContent, index) in pageContents"
+              :key="pageContent.src"
               v-show="index === currentContentIndex"
               class="image-left"
               :class="isMouseOver ? 'image-left-active' : ''"
-              :style="{ backgroundImage: 'url(' + image.src + ')' }"
+              :style="{ backgroundImage: 'url(' + pageContent.src + ')' }"
             ></div>
           </transition-group>
         </div>
         <div class="image-wrapper-right">
           <transition-group name="slide-delay">
             <div
-              v-for="(image, index) in imageSrcArray"
-              :key="index"
+              v-for="(pageContent, index) in pageContents"
+              :key="pageContent.title"
               v-show="index === currentContentIndex"
               class="image-right"
               :class="isMouseOver ? 'image-right-active' : ''"
-              :style="{ backgroundImage: 'url(' + image.src + ')' }"
+              :style="{ backgroundImage: 'url(' + pageContent.src + ')' }"
             ></div>
           </transition-group>
         </div>

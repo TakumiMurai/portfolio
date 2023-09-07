@@ -3,8 +3,8 @@ import { ref, onMounted } from 'vue'
 import type { Ref } from 'vue/dist/vue.js'
 import CaptionImage from '@/components/CaptionImage.vue'
 import FadeInAnimation from '@/components/FadeInAnimation.vue'
-import Header from '@/components/Header.vue'
-import Footer from '@/components/Footer.vue'
+import AppHeader from '@/components/AppHeader.vue'
+import AppFooter from '@/components/AppFooter.vue'
 import myFavoritePicture from '@/assets/my-favorite.jpg'
 import animeImage from '@/assets/anime.jpg'
 import comicImage from '@/assets/comic.jpg'
@@ -14,22 +14,30 @@ import ramenImage from '@/assets/ramen.jpg'
 
 const isActiveOverlay: Ref<boolean> = ref(true)
 
-const images: Ref<{ src: string; caption: string }[]> = ref([
+const captionImages: Ref<{ id: string; src: string; caption: string }[]> = ref([
   {
+    id: 'anime',
     src: animeImage,
     caption: 'アニメ鑑賞が好きです。画像は最も好きなアニメのキルラキルのゲーム（特別版）。'
   },
-  { src: comicImage, caption: '漫画は1000冊以上所持しています。置き場所に困っています。' },
   {
+    id: 'comic',
+    src: comicImage,
+    caption: '漫画は1000冊以上所持しています。置き場所に困っています。'
+  },
+  {
+    id: 'game',
     src: gameImage,
     caption:
       'ゲームに寝中すると時間を忘れてプレイしてしまいます。最近はもっぱらPCでゲームをしています。'
   },
   {
+    id: 'guitar',
     src: guitarImage,
     caption: '大学から始めたギター。今でも月1回のペースで仲間とライブをしています。'
   },
   {
+    id: 'ramen',
     src: ramenImage,
     caption: '食べ物、特にラーメンが好きです。画像は近所のよく行くラーメン屋です。'
   }
@@ -44,29 +52,32 @@ onMounted(() => {
 })
 </script>
 <template>
-  <Header @click="onClick"></Header>
+  <AppHeader @click="onClick"></AppHeader>
   <transition name="overlay-green">
     <div class="overlay-green" v-if="isActiveOverlay"></div>
   </transition>
   <transition name="overlay-black">
     <div class="overlay-black" v-if="isActiveOverlay"></div>
   </transition>
-  <img :src="myFavoritePicture" class="header-img" />
+  <img :src="myFavoritePicture" class="AppHeader-img" />
+  <div class="page-title">
+    <span class="page-title-span">MY FAVORITE</span>
+  </div>
   <div class="content">
     <ul class="content-inner">
-      <li v-for="image in images">
+      <li v-for="captionImage in captionImages" :key="captionImage.id">
         <FadeInAnimation>
           <CaptionImage
             class="caption-image"
-            :imageSource="image.src"
-            :caption="image.caption"
+            :imageSource="captionImage.src"
+            :caption="captionImage.caption"
           ></CaptionImage>
         </FadeInAnimation>
       </li>
     </ul>
   </div>
 
-  <Footer></Footer>
+  <AppFooter></AppFooter>
 </template>
 
 <style scoped lang="scss">
@@ -112,7 +123,7 @@ ul {
 .overlay-black-leave-to {
   height: 0;
 }
-.header-img {
+.AppHeader-img {
   width: 100vw;
   position: fixed;
   top: 0;
@@ -145,6 +156,23 @@ ul {
     width: 100%;
     margin-bottom: 13vw;
   }
+  .page-title {
+    position: absolute;
+    top: 20vh;
+    left: 50vw;
+    width: 100%;
+    text-align: center;
+    transform: translate(-50%, -50%);
+    z-index: -2;
+    &-span {
+      display: block;
+      color: #fff;
+      font-weight: 900;
+      font-size: calc(1.5rem + 5vw);
+      line-height: 0.9em;
+      transform-origin: center left;
+    }
+  }
 }
 @media screen and (min-width: 769px) {
   .content {
@@ -167,6 +195,23 @@ ul {
     width: 32vw;
     margin-bottom: 13vw;
   }
+  .page-title {
+    position: absolute;
+    top: 30vh;
+    left: 50vw;
+    width: 100%;
+    text-align: center;
+    transform: translate(-50%, -50%);
+    z-index: -2;
+    &-span {
+      display: block;
+      color: #fff;
+      font-weight: 900;
+      font-size: calc(1.5rem + 5vw);
+      line-height: 0.9em;
+      transform-origin: center left;
+    }
+  }
 }
 @media screen and (min-width: 1024px) {
   .content {
@@ -178,8 +223,25 @@ ul {
     background-color: #121212;
     clear: both;
   }
+  .page-title {
+    position: absolute;
+    top: 50vh;
+    left: 50vw;
+    width: 100%;
+    text-align: center;
+    transform: translate(-50%, -50%);
+    z-index: -2;
+    &-span {
+      display: block;
+      color: #fff;
+      font-weight: 900;
+      font-size: calc(1.5rem + 5vw);
+      line-height: 0.9em;
+      transform-origin: center left;
+    }
+  }
 }
-.footer-wrapper {
+.AppFooter-wrapper {
   width: 100vw;
   height: 20vw;
   display: block;
@@ -187,7 +249,7 @@ ul {
   position: relative;
 }
 
-.footer-inner {
+.AppFooter-inner {
   color: #fff;
   font-size: 1.3vw;
   font-family: 'PT Sans Narrow', sans-serif;
