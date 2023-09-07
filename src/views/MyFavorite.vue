@@ -73,6 +73,11 @@ onMounted(() => {
             :caption="captionImage.caption"
           ></CaptionImage>
         </FadeInAnimation>
+        <FadeInAnimation>
+          <div class="caption-sp">
+            <span>{{ captionImage.caption }}</span>
+          </div>
+        </FadeInAnimation>
       </li>
     </ul>
   </div>
@@ -153,6 +158,9 @@ ul {
     border-bottom: 1px solid #9c9c9b;
   }
   .caption-image {
+    width: 100%;
+  }
+  .caption-sp {
     width: 100%;
     margin-bottom: 13vw;
   }

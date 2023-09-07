@@ -425,7 +425,7 @@ onMounted(() => {
   transition: transform 0.5s cubic-bezier(0.5, 0, 0.75, 0);
 }
 .slide-enter-from {
-  height: 0;
+  transform: translateY(100%);
 }
 .slide-leave-to {
   transform: translateY(-100%);
@@ -437,7 +437,7 @@ onMounted(() => {
   transition: transform 0.5s cubic-bezier(0.5, 0, 0.75, 0) 0.1s;
 }
 .slide-delay-enter-from {
-  height: 0;
+  transform: translateY(100%);
 }
 .slide-delay-leave-to {
   transform: translateY(-100%);

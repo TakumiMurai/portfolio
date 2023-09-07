@@ -20,6 +20,7 @@ const onScroll = () => {
 onMounted(() => {
   // スクロールイベントリスナーを追加
   window.addEventListener('scroll', onScroll)
+  onScroll()
 })
 
 onUnmounted(() => {

@@ -17,7 +17,7 @@ const onMouseleave = () => {
   <div class="image-container" @mouseenter="onMouseenter" @mouseleave="onMouseleave">
     <img class="image" :src="imageSource" />
     <transition name="overlay">
-      <div class="text-overlay" v-if="showText">
+      <div class="text-overlay" v-show="showText">
         <p class="overlay-text">{{ caption }}</p>
       </div>
     </transition>
@@ -64,5 +64,26 @@ const onMouseleave = () => {
 .overlay-leave-to {
   padding-top: 10px;
   opacity: 0;
+}
+
+@media screen and (max-width: 768.98px) {
+  .overlay-text {
+    width: 90%;
+    font-size: 2.4vw;
+    font-family: 游ゴシック体, 'Yu Gothic', YuGothic, 'ヒラギノ角ゴシック Pro',
+      'Hiragino Kaku Gothic Pro', メイリオ, Meiryo, Osaka, 'ＭＳ Ｐゴシック', 'MS PGothic',
+      sans-serif;
+    color: #fff;
+  }
+}
+@media screen and (min-width: 769px) {
+  .overlay-text {
+    width: 70%;
+    font-size: 1.1vw;
+    font-family: 游ゴシック体, 'Yu Gothic', YuGothic, 'ヒラギノ角ゴシック Pro',
+      'Hiragino Kaku Gothic Pro', メイリオ, Meiryo, Osaka, 'ＭＳ Ｐゴシック', 'MS PGothic',
+      sans-serif;
+    color: #fff;
+  }
 }
 </style>

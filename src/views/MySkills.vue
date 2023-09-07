@@ -135,6 +135,10 @@ onMounted(() => {
   top: 0;
   z-index: -2;
 }
+.skill-text-wrapper {
+  font-family: 游ゴシック体, 'Yu Gothic', YuGothic, 'ヒラギノ角ゴシック Pro',
+    'Hiragino Kaku Gothic Pro', メイリオ, Meiryo, Osaka, 'ＭＳ Ｐゴシック', 'MS PGothic', sans-serif;
+}
 @media screen and (max-width: 768.98px) {
   .content {
     margin: 74vw auto 0;
