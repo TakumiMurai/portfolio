@@ -6,7 +6,10 @@ import vueJsx from '@vitejs/plugin-vue-jsx'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: 'portfolio',
+  base: '/portfolio/',
+  build: {
+    outDir: 'docs'
+  },
   plugins: [vue(), vueJsx()],
   resolve: {
     alias: {
