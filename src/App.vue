@@ -8,7 +8,7 @@ const showSplashScreen = ref(true)
 onMounted(() => {
   setTimeout(() => {
     showSplashScreen.value = false
-  }, 4000)
+  }, 4500)
 })
 </script>
 

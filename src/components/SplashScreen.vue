@@ -57,30 +57,42 @@ onMounted(() => {
 
 <template>
   <div class="splash-screen__wrapper">
-    <transition-group name="list">
-      <div
-        v-for="transitionLetter in transitionLetters"
-        :key="transitionLetter"
-        class="splash-screen__letters"
-      >
-        {{ transitionLetter }}
-      </div>
-    </transition-group>
+    <div class="letters__wrapper">
+      <transition-group name="list">
+        <div
+          v-for="transitionLetter in transitionLetters"
+          :key="transitionLetter"
+          class="letters__char"
+        >
+          {{ transitionLetter }}
+        </div>
+      </transition-group>
+    </div>
   </div>
 </template>
 
 <style scoped lang="scss">
 .splash-screen {
   &__wrapper {
-    width: 100%;
-    height: 100%;
-    display: flex;
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+  }
+}
+.letters {
+  &__wrapper {
     justify-content: center;
     align-items: center;
-    font-size: 24px;
     overflow: hidden;
+    position: absolute;
+    display: flex;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
   }
-  &__letters {
+  &__char {
     font-weight: 900;
     font-size: calc(1.3rem + 4vw);
     height: calc(1.3rem + 4vw);
@@ -92,7 +104,7 @@ onMounted(() => {
 }
 .list-enter-active,
 .list-leave-active {
-  transition: all 0.5s;
+  transition: all 0.5s 0.3s;
 }
 .list-enter-from {
   transform: translateY(calc(1.3rem + 4vw));
