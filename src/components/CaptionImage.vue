@@ -36,6 +36,12 @@ const onMouseleave = () => {
     height: auto;
     transition: filter 0.3s ease-in-out;
   }
+  &__caption {
+    font-family: 游ゴシック体, 'Yu Gothic', YuGothic, 'ヒラギノ角ゴシック Pro',
+      'Hiragino Kaku Gothic Pro', メイリオ, Meiryo, Osaka, 'ＭＳ Ｐゴシック', 'MS PGothic',
+      sans-serif;
+    color: #fff;
+  }
   &__caption-wrapper {
     position: absolute;
     top: 0;
@@ -64,20 +70,12 @@ const onMouseleave = () => {
   .caption-image__caption {
     width: 90%;
     font-size: 2.4vw;
-    font-family: 游ゴシック体, 'Yu Gothic', YuGothic, 'ヒラギノ角ゴシック Pro',
-      'Hiragino Kaku Gothic Pro', メイリオ, Meiryo, Osaka, 'ＭＳ Ｐゴシック', 'MS PGothic',
-      sans-serif;
-    color: #fff;
   }
 }
 @media screen and (min-width: 769px) {
   .caption-image__caption {
     width: 70%;
     font-size: 1.1vw;
-    font-family: 游ゴシック体, 'Yu Gothic', YuGothic, 'ヒラギノ角ゴシック Pro',
-      'Hiragino Kaku Gothic Pro', メイリオ, Meiryo, Osaka, 'ＭＳ Ｐゴシック', 'MS PGothic',
-      sans-serif;
-    color: #fff;
   }
 }
 </style>

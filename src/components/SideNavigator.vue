@@ -1,4 +1,7 @@
 <script setup lang="ts">
+const props = defineProps<Props>()
+const emit = defineEmits<Emits>()
+
 interface Props {
   pageContents: Array<{ title: string; pageName: string; src: string }>
   currentContentIndex: number
@@ -6,10 +9,6 @@ interface Props {
 interface Emits {
   (e: 'onClickNavigator', index: number): void
 }
-
-const props = defineProps<Props>()
-const emit = defineEmits<Emits>()
-
 const handleClick = (index: number): void => {
   emit('onClickNavigator', index)
 }

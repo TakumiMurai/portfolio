@@ -15,8 +15,7 @@
   }
   &__inner {
     color: #fff;
-    font-size: 1.3vw;
-    font-family: 'PT Sans Narrow', sans-serif;
+    font-family: Montserrat, sans-serif;
     font-weight: bold;
     letter-spacing: 0.5em;
     display: inline-block;
@@ -26,6 +25,16 @@
     -webkit-transform: translate(-50%, -50%);
     -ms-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
+  }
+}
+@media screen and (max-width: 768.98px) {
+  .footer__inner {
+    font-size: 2.4vw;
+  }
+}
+@media screen and (min-width: 769px) {
+  .footer__inner {
+    font-size: 1.3vw;
   }
 }
 </style>

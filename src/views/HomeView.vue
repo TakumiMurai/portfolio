@@ -7,7 +7,7 @@ import aboutMePicture from '@/assets/about-me.jpg'
 import mySkillsPicture from '@/assets/my-skills.jpg'
 import myFavoritePicture from '@/assets/my-favorite.jpg'
 
-const LETTER_ANIMATION_INTERVAL_TIME = 20
+const LETTER_ANIMATION_INTERVAL_TIME: number = 20
 
 // 表示するページのインデックス
 const currentContentIndex: Ref<number> = ref(0)
@@ -25,13 +25,13 @@ const pageContents: Ref<Array<{ title: string; pageName: string; src: string }>>
     src: myFavoritePicture
   }
 ])
-const isMouseOver = ref(false)
+const isMouseOver: Ref<boolean> = ref(false)
 const canClick: Ref<boolean> = ref(true)
 const canScroll: Ref<boolean> = ref(true)
 const isActiveOverlay: Ref<boolean> = ref(true)
 
 // マウスホイール動作時のイベント
-const handleWheel = (event: WheelEvent) => {
+const handleWheel = (event: WheelEvent): void => {
   if (canScroll.value) {
     canScroll.value = false
     const totalContent: number = pageContents.value.length
@@ -50,7 +50,7 @@ const handleWheel = (event: WheelEvent) => {
   }
 }
 
-const show = () => {
+const show = (): void => {
   const text = pageContents.value[currentContentIndex.value].title
 
   const letters = text.split('')
@@ -61,7 +61,7 @@ const show = () => {
   intervalForEach(callback, letters, LETTER_ANIMATION_INTERVAL_TIME)
 }
 
-const hide = () => {
+const hide = (): void => {
   const text = pageContents.value[currentContentIndex.value].title
   const letters = text.split('')
 
@@ -72,7 +72,7 @@ const hide = () => {
   intervalForEach(callback, letters, LETTER_ANIMATION_INTERVAL_TIME)
 }
 
-const intervalForEach = (callback: Function, array: Array<string>, intervalTime: number) => {
+const intervalForEach = (callback: Function, array: Array<string>, intervalTime: number): void => {
   const length = array.length
 
   let index = 0
@@ -101,15 +101,15 @@ const handleClick = (index: number): void => {
   }
 }
 
-const onMouseOver = () => {
+const onMouseOver = (): void => {
   isMouseOver.value = true
 }
 
-const onMouseLeave = () => {
+const onMouseLeave = (): void => {
   isMouseOver.value = false
 }
 
-const onclick = (pageName: string) => {
+const onclick = (pageName: string): void => {
   isActiveOverlay.value = true
   setTimeout(() => {
     router.push(pageName)
@@ -123,7 +123,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="wrapperHome">
+  <div class="home__wrapper">
     <transition name="overlay-green">
       <div class="overlay-green" v-if="isActiveOverlay"></div>
     </transition>
@@ -137,45 +137,45 @@ onMounted(() => {
         @onClickNavigator="handleClick"
       ></SideNavigator>
       <div
-        class="pageContent"
+        class="content__wrapper"
         v-for="(pageContent, index) in pageContents"
         v-show="currentContentIndex === index"
         :key="pageContent.title"
       >
-        <div class="transition-container">
+        <div class="slide-letters__wrapper">
           <transition-group name="list">
-            <div v-for="letter in char" :key="letter" class="transition-letters">
+            <div v-for="letter in char" :key="letter" class="slide-letters__inner">
               {{ letter }}
             </div>
           </transition-group>
         </div>
       </div>
       <div
-        class="image-wrapper-all"
+        class="image__wrapper-all"
         @mouseover="onMouseOver"
         @mouseleave="onMouseLeave"
         @click="onclick(pageContents[currentContentIndex].pageName)"
       >
-        <div class="image-wrapper-left">
+        <div class="image__wrapper-left">
           <transition-group name="slide">
             <div
               v-for="(pageContent, index) in pageContents"
               :key="pageContent.src"
               v-show="index === currentContentIndex"
-              class="image-left"
-              :class="isMouseOver ? 'image-left-active' : ''"
+              class="image__inner-left"
+              :class="isMouseOver ? 'image__inner-left--active' : ''"
               :style="{ backgroundImage: 'url(' + pageContent.src + ')' }"
             ></div>
           </transition-group>
         </div>
-        <div class="image-wrapper-right">
+        <div class="image__wrapper-right">
           <transition-group name="slide-delay">
             <div
               v-for="(pageContent, index) in pageContents"
               :key="pageContent.title"
               v-show="index === currentContentIndex"
-              class="image-right"
-              :class="isMouseOver ? 'image-right-active' : ''"
+              class="image__inner-right"
+              :class="isMouseOver ? 'image__inner-right--active' : ''"
               :style="{ backgroundImage: 'url(' + pageContent.src + ')' }"
             ></div>
           </transition-group>
@@ -186,10 +186,194 @@ onMounted(() => {
 </template>
 
 <style scoped lang="scss">
-.wrapperHome {
+.home__wrapper {
   height: 100vh;
   width: 100vw;
   overflow: hidden;
+}
+.content__wrapper {
+  position: relative;
+  height: 100vh;
+  width: 100vw;
+}
+.slide-letters {
+  &__wrapper {
+    position: absolute;
+    display: flex;
+    overflow: hidden;
+    z-index: 1;
+  }
+  &__inner {
+    font-weight: 900;
+    font-size: calc(1.3rem + 4vw);
+    height: calc(1.3rem + 4vw);
+    line-height: 0.7;
+    color: #fff;
+    margin: 0;
+    white-space: pre;
+  }
+}
+.image {
+  &__wrapper {
+    &-all {
+      position: absolute;
+      overflow: hidden;
+      -webkit-backface-visibility: hidden;
+      will-change: transform;
+    }
+    &-left {
+      position: absolute;
+      left: 0;
+      width: 50.1%;
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      min-width: 12.5rem;
+      transform-origin: top;
+      overflow: hidden;
+      will-change: transform;
+    }
+    &-right {
+      position: absolute;
+      left: auto;
+      right: 0;
+      width: 50.1%;
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      min-width: 12.5rem;
+      transform-origin: top;
+      overflow: hidden;
+      will-change: transform;
+    }
+  }
+  &__inner {
+    &-left {
+      position: absolute;
+      left: 0;
+      background-size: cover;
+      transition: all 0.4s;
+      will-change: transform;
+    }
+    &-right {
+      position: absolute;
+      bottom: 0;
+      left: auto;
+      right: 0;
+      background-size: cover;
+      transition: all 0.4s;
+      will-change: transform;
+    }
+  }
+}
+@media screen and (max-width: 768.98px) {
+  .slide-letters__wrapper {
+    bottom: auto;
+    left: 50%;
+    top: 70%;
+    transform: translateX(-50%);
+  }
+  .image {
+    &__wrapper {
+      &-all {
+        top: 15%;
+        width: calc(100% - 3rem);
+        height: 50%;
+        left: 1.5rem;
+      }
+    }
+    &__inner {
+      &-left {
+        width: calc(100vw - 3rem);
+        height: 100%;
+        background-position: 50%;
+      }
+      &-right {
+        width: calc(100vw - 3rem);
+        height: 100%;
+        background-position: 50%;
+      }
+    }
+  }
+}
+@media screen and (min-width: 769px) {
+  .slide-letters__wrapper {
+    bottom: calc(2rem + 4vw);
+    left: 3rem;
+  }
+  .image {
+    &__wrapper {
+      &-all {
+        position: absolute;
+        width: 70%;
+        left: 15%;
+        top: 20%;
+        height: 60%;
+      }
+    }
+    &__inner {
+      &-left {
+        transform: translateY(-50px);
+        width: 70vw;
+        height: 100%;
+        background-position: center 50px;
+      }
+      &-right {
+        transform: translateY(50px);
+        width: 70vw;
+        height: 100%;
+        background-position: center -50px;
+      }
+    }
+  }
+}
+@media screen and (min-width: 1024px) {
+  .slide-letters__wrapper {
+    bottom: calc(2rem + 4vw);
+    left: 3rem;
+  }
+  .image {
+    &__wrapper {
+      &-all {
+        left: 25%;
+        top: 15%;
+        width: 50%;
+        height: 70%;
+      }
+    }
+    &__inner {
+      &-left {
+        width: 50vw;
+        height: 100%;
+        background-position: 50%;
+        transform: translateY(-50px);
+        background-position: 50%;
+        &--active {
+          background-position: center 50px;
+        }
+      }
+      &-right {
+        width: 50vw;
+        height: 100%;
+        transform: translateY(50px);
+        background-position: 50%;
+        &--active {
+          background-position: center -50px;
+        }
+      }
+    }
+  }
+}
+.list-enter-active,
+.list-leave-active {
+  transition: all 0.5s;
+}
+
+.list-enter-from {
+  transform: translateY(calc(1.3rem + 4vw));
+}
+.list-leave-to {
+  transform: translateY(calc(-1.3rem - 4vw));
 }
 .overlay-green {
   position: absolute;
@@ -228,195 +412,6 @@ onMounted(() => {
 .overlay-black-enter-from,
 .overlay-black-leave-to {
   height: 0;
-}
-.pageContent {
-  position: relative;
-  height: 100vh;
-  width: 100vw;
-}
-.transition-letters {
-  font-weight: 900;
-  font-size: calc(1.3rem + 4vw);
-  height: calc(1.3rem + 4vw);
-  line-height: 0.7;
-  color: #fff;
-  margin: 0;
-  white-space: pre;
-}
-
-.list-enter-active,
-.list-leave-active {
-  transition: all 0.5s;
-}
-
-.list-enter-from {
-  transform: translateY(calc(1.3rem + 4vw));
-}
-.list-leave-to {
-  transform: translateY(calc(-1.3rem - 4vw));
-}
-@media screen and (max-width: 768.98px) {
-  .image-wrapper-all {
-    position: absolute;
-    top: 15%;
-    width: calc(100% - 3rem);
-    height: 50%;
-    left: 1.5rem;
-    overflow: hidden;
-    -webkit-backface-visibility: hidden;
-    will-change: transform;
-  }
-  .image-left {
-    position: absolute;
-    left: 0;
-    width: calc(100vw - 3rem);
-    height: 100%;
-    background-size: cover;
-    transition: all 0.4s;
-    will-change: transform;
-    background-position: 50%;
-  }
-  .image-right {
-    position: absolute;
-    bottom: 0;
-    left: auto;
-    right: 0;
-    width: calc(100vw - 3rem);
-    height: 100%;
-    background-size: cover;
-    transition: all 0.4s;
-    will-change: transform;
-    background-position: 50%;
-  }
-  .transition-container {
-    position: absolute;
-    bottom: auto;
-    left: 50%;
-    top: 70%;
-    display: flex;
-    overflow: hidden;
-    transform: translateX(-50%);
-  }
-}
-@media screen and (min-width: 769px) {
-  .image-wrapper-all {
-    position: absolute;
-    width: 70%;
-    left: 15%;
-    top: 20%;
-    height: 60%;
-    overflow: hidden;
-    -webkit-backface-visibility: hidden;
-    will-change: transform;
-  }
-  .image-left {
-    position: absolute;
-    left: 0;
-    width: 70vw;
-    height: 100%;
-    background-size: cover;
-    transform: translateY(-50px);
-    transition: all 0.4s;
-    will-change: transform;
-    background-position: center 50px;
-  }
-  .image-right {
-    position: absolute;
-    bottom: 0;
-    left: auto;
-    right: 0;
-    transform: translateY(50px);
-    width: 70vw;
-    height: 100%;
-    background-size: cover;
-    transition: all 0.4s;
-    will-change: transform;
-    background-position: center -50px;
-  }
-  .transition-container {
-    position: absolute;
-    bottom: calc(2rem + 4vw);
-    left: 3rem;
-    display: flex;
-    overflow: hidden;
-    z-index: 1;
-  }
-}
-@media screen and (min-width: 1025px) {
-  .image-wrapper-all {
-    position: absolute;
-    left: 25%;
-    top: 15%;
-    width: 50%;
-    height: 70%;
-    overflow: hidden;
-    -webkit-backface-visibility: hidden;
-    will-change: transform;
-  }
-  .image-left {
-    position: absolute;
-    left: 0;
-    width: 50vw;
-    height: 100%;
-    background-size: cover;
-    background-position: 50%;
-    transform: translateY(-50px);
-    transition: all 0.4s;
-    will-change: transform;
-  }
-  .image-right {
-    position: absolute;
-    bottom: 0;
-    left: auto;
-    right: 0;
-    transform: translateY(50px);
-    width: 50vw;
-    height: 100%;
-    background-size: cover;
-    background-position: 50%;
-    transition: all 0.4s;
-    will-change: transform;
-  }
-  .image-left-active {
-    background-position: center 50px;
-  }
-  .image-right-active {
-    background-position: center -50px;
-  }
-  .transition-container {
-    position: absolute;
-    bottom: calc(2rem + 4vw);
-    left: 3rem;
-    display: flex;
-    overflow: hidden;
-    z-index: 1;
-  }
-}
-
-.image-wrapper-left {
-  position: absolute;
-  left: 0;
-  width: 50.1%;
-  height: 100%;
-  padding: 0;
-  margin: 0;
-  min-width: 12.5rem;
-  transform-origin: top;
-  overflow: hidden;
-  will-change: transform;
-}
-.image-wrapper-right {
-  position: absolute;
-  left: auto;
-  right: 0;
-  width: 50.1%;
-  height: 100%;
-  padding: 0;
-  margin: 0;
-  min-width: 12.5rem;
-  transform-origin: top;
-  overflow: hidden;
-  will-change: transform;
 }
 .slide-enter-active {
   transition: transform 0.5s cubic-bezier(0.5, 0, 0.75, 0) 1s;

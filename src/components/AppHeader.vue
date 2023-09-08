@@ -26,6 +26,7 @@ const onClickHome = () => {
     z-index: 1;
   }
   &__left {
+    font-family: Montserrat, sans-serif;
     font-weight: 700;
     color: #fff;
     font-size: 16px;

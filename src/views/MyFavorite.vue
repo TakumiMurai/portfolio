@@ -5,6 +5,7 @@ import CaptionImage from '@/components/CaptionImage.vue'
 import FadeInAnimation from '@/components/FadeInAnimation.vue'
 import AppHeader from '@/components/AppHeader.vue'
 import AppFooter from '@/components/AppFooter.vue'
+import PageTitle from '@/components/PageTitle.vue'
 import myFavoritePicture from '@/assets/my-favorite.jpg'
 import animeImage from '@/assets/anime.jpg'
 import comicImage from '@/assets/comic.jpg'
@@ -12,6 +13,7 @@ import gameImage from '@/assets/game.jpg'
 import guitarImage from '@/assets/guitar.jpg'
 import ramenImage from '@/assets/ramen.jpg'
 
+const PAGE_TITLE: string = 'MY FAVORITE'
 const isActiveOverlay: Ref<boolean> = ref(true)
 
 const captionImages: Ref<{ id: string; src: string; caption: string }[]> = ref([
@@ -59,22 +61,20 @@ onMounted(() => {
   <transition name="overlay-black">
     <div class="overlay-black" v-if="isActiveOverlay"></div>
   </transition>
-  <img :src="myFavoritePicture" class="AppHeader-img" />
-  <div class="page-title">
-    <span class="page-title-span">MY FAVORITE</span>
-  </div>
-  <div class="content">
-    <ul class="content-inner">
+  <img :src="myFavoritePicture" class="key-visual" />
+  <PageTitle :title="PAGE_TITLE"></PageTitle>
+  <div class="content__wrapper">
+    <ul class="content__inner">
       <li v-for="captionImage in captionImages" :key="captionImage.id">
         <FadeInAnimation>
           <CaptionImage
-            class="caption-image"
+            class="caption__image"
             :imageSource="captionImage.src"
             :caption="captionImage.caption"
           ></CaptionImage>
         </FadeInAnimation>
         <FadeInAnimation>
-          <div class="caption-sp">
+          <div class="caption__text--sp">
             <span>{{ captionImage.caption }}</span>
           </div>
         </FadeInAnimation>
@@ -89,6 +89,114 @@ onMounted(() => {
 ul {
   list-style-type: none;
   padding-inline: 0;
+}
+.key-visual {
+  width: 100vw;
+  position: fixed;
+  top: 0;
+  z-index: -2;
+}
+.title {
+  &__wrapper {
+    font-weight: 900;
+    font-size: calc(1.3rem + 4vw);
+    color: #121212;
+    transform: translate(-50%, -50%);
+    top: 50vh;
+    left: 50vw;
+    z-index: -2;
+  }
+}
+.content {
+  &__wrapper {
+    width: 100vw;
+    background-color: #121212;
+  }
+  &__inner {
+    margin: 0 auto;
+    padding-bottom: 18.7vw;
+    border-bottom: 1px solid #9c9c9b;
+    display: flex;
+    -webkit-box-pack: justify;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+}
+@media screen and (max-width: 768.98px) {
+  .content {
+    &__wrapper {
+      padding-top: 14vw;
+    }
+    &__inner {
+      width: 79vw;
+    }
+  }
+  .caption {
+    &__image {
+      width: 100%;
+    }
+    &__text {
+      &--sp {
+        width: 100%;
+        margin-bottom: 13vw;
+      }
+    }
+  }
+  .title {
+    &__wrapper {
+      top: 20vh;
+    }
+  }
+}
+@media screen and (min-width: 769px) {
+  .content {
+    &__wrapper {
+      padding-top: 14vw;
+    }
+    &__inner {
+      width: 72vw;
+    }
+  }
+  .caption {
+    &__image {
+      width: 100%;
+    }
+    &__text {
+      &--sp {
+        width: 100%;
+        margin-bottom: 13vw;
+      }
+    }
+  }
+  .title {
+    &__wrapper {
+      top: 30vh;
+    }
+  }
+}
+@media screen and (min-width: 1024px) {
+  .content {
+    &__wrapper {
+      padding: 11vw 0 0;
+      clear: both;
+    }
+  }
+  .caption {
+    &__image {
+      width: 32vw;
+      margin-bottom: 13vw;
+    }
+    &__text {
+      &--sp {
+        display: none;
+      }
+    }
+  }
+  .title {
+    &__wrapper {
+      top: 50vh;
+    }
+  }
 }
 .overlay-green {
   position: fixed;
@@ -127,158 +235,5 @@ ul {
 .overlay-black-enter-from,
 .overlay-black-leave-to {
   height: 0;
-}
-.AppHeader-img {
-  width: 100vw;
-  position: fixed;
-  top: 0;
-  z-index: -2;
-}
-.page-title {
-  position: fixed;
-  font-weight: 900;
-  font-size: calc(1.3rem + 4vw);
-  color: #121212;
-  transform: translate(-50%, -50%);
-  top: 50vh;
-  left: 50vw;
-  z-index: -2;
-}
-@media screen and (max-width: 768.98px) {
-  .content {
-    margin: 74vw auto 0;
-    width: 100vw;
-    padding-top: 14vw;
-    background-color: #121212;
-  }
-  .content-inner {
-    width: 79vw;
-    margin: 0 auto;
-    padding-bottom: 18.7vw;
-    border-bottom: 1px solid #9c9c9b;
-  }
-  .caption-image {
-    width: 100%;
-  }
-  .caption-sp {
-    width: 100%;
-    margin-bottom: 13vw;
-  }
-  .page-title {
-    position: absolute;
-    top: 20vh;
-    left: 50vw;
-    width: 100%;
-    text-align: center;
-    transform: translate(-50%, -50%);
-    z-index: -2;
-    &-span {
-      display: block;
-      color: #fff;
-      font-weight: 900;
-      font-size: calc(1.5rem + 5vw);
-      line-height: 0.9em;
-      transform-origin: center left;
-    }
-  }
-}
-@media screen and (min-width: 769px) {
-  .content {
-    margin: 74vw auto 0;
-    width: 100vw;
-    padding-top: 14vw;
-    background-color: #121212;
-  }
-  .content-inner {
-    width: 72vw;
-    margin: 0 auto;
-    padding-bottom: 18.7vw;
-    border-bottom: 1px solid #9c9c9b;
-    display: flex;
-    -webkit-box-pack: justify;
-    justify-content: space-between;
-    flex-wrap: wrap;
-  }
-  .caption-image {
-    width: 32vw;
-  }
-  .page-title {
-    position: absolute;
-    top: 30vh;
-    left: 50vw;
-    width: 100%;
-    text-align: center;
-    transform: translate(-50%, -50%);
-    z-index: -2;
-    &-span {
-      display: block;
-      color: #fff;
-      font-weight: 900;
-      font-size: calc(1.5rem + 5vw);
-      line-height: 0.9em;
-      transform-origin: center left;
-    }
-  }
-  .caption-sp {
-    width: 100%;
-    margin-bottom: 13vw;
-  }
-}
-@media screen and (min-width: 1024px) {
-  .content {
-    margin-top: 100vh;
-    clear: both;
-    margin-top: 100vh;
-    width: 100vw;
-    padding: 11vw 0 0;
-    background-color: #121212;
-    clear: both;
-  }
-  .page-title {
-    position: absolute;
-    top: 50vh;
-    left: 50vw;
-    width: 100%;
-    text-align: center;
-    transform: translate(-50%, -50%);
-    z-index: -2;
-    &-span {
-      display: block;
-      color: #fff;
-      font-weight: 900;
-      font-size: calc(1.5rem + 5vw);
-      line-height: 0.9em;
-      transform-origin: center left;
-    }
-  }
-  .caption-image {
-    width: 32vw;
-    margin-bottom: 13vw;
-  }
-  .caption-sp {
-    display: none;
-  }
-}
-.AppFooter-wrapper {
-  width: 100vw;
-  height: 20vw;
-  display: block;
-  background-color: #121212;
-  position: relative;
-}
-
-.AppFooter-inner {
-  color: #fff;
-  font-size: 1.3vw;
-  font-family: 'PT Sans Narrow', sans-serif;
-  font-weight: bold;
-  letter-spacing: 0.5em;
-  display: inline-block;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  -webkit-transform: translate(-50%, -50%);
-  -ms-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
 }
 </style>

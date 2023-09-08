@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import type { Ref } from 'vue/dist/vue.js'
-import AppHeader from '@/components/AppHeader.vue'
 import FadeInAnimation from '@/components/FadeInAnimation.vue'
+import AppHeader from '@/components/AppHeader.vue'
 import AppFooter from '@/components/AppFooter.vue'
+import PageTitle from '@/components/PageTitle.vue'
 import iconCss from '@/assets/icons8-css.svg'
 import iconHtml from '@/assets/icons8-html.svg'
 import iconJavascript from '@/assets/icons8-javascript.svg'
@@ -13,9 +14,11 @@ import iconVue from '@/assets/icons8-vue-js.svg'
 import iconAws from '@/assets/icons8-aws.svg'
 import mySkillsPicture from '@/assets/my-skills.jpg'
 
+const PAGE_TITLE: string = 'MY SKILLS'
+
 const isActiveOverlay: Ref<boolean> = ref(true)
 
-const skills = ref([
+const skills: Ref<Array<{ name: string; img: string; content: string }>> = ref([
   {
     name: 'HTML',
     img: iconHtml,
@@ -54,7 +57,7 @@ const skills = ref([
   }
 ])
 
-const onClick = () => {
+const onClick = (): void => {
   isActiveOverlay.value = true
 }
 
@@ -70,18 +73,16 @@ onMounted(() => {
   <transition name="overlay-black">
     <div class="overlay-black" v-if="isActiveOverlay"></div>
   </transition>
-  <img :src="mySkillsPicture" class="AppHeader-img" />
-  <div class="page-title">
-    <span class="page-title-span">MY SKILLS</span>
-  </div>
-  <div class="content">
-    <div class="content-inner">
+  <img :src="mySkillsPicture" class="key-visual" />
+  <PageTitle :title="PAGE_TITLE"></PageTitle>
+  <div class="content__wrapper">
+    <div class="content__inner">
       <div v-for="skill in skills" :key="skill.name">
-        <FadeInAnimation class="skill-wrapper">
-          <img class="skill-icon" :src="skill.img" />
-          <div class="skill-text-wrapper">
-            <div class="skill-title">{{ skill.name }}</div>
-            <div class="skill-content">{{ skill.content }}</div>
+        <FadeInAnimation class="skill__wrapper">
+          <img class="skill__icon" :src="skill.img" />
+          <div class="skill-text__wrapper">
+            <div class="skill-text__title">{{ skill.name }}</div>
+            <div class="skill-text__content">{{ skill.content }}</div>
           </div>
         </FadeInAnimation>
       </div>
@@ -91,6 +92,109 @@ onMounted(() => {
 </template>
 
 <style scoped lang="scss">
+.key-visual {
+  width: 100vw;
+  position: fixed;
+  top: 0;
+  z-index: -2;
+}
+.content {
+  &__wrapper {
+    width: 100vw;
+    background-color: #121212;
+  }
+  &__inner {
+    margin: 0 auto;
+    padding-bottom: 18.7vw;
+    border-bottom: 1px solid #9c9c9b;
+  }
+}
+.skill {
+  &__wrapper {
+    width: 100%;
+    display: flex;
+  }
+  &-text {
+    &__wrapper {
+      font-family: 游ゴシック体, 'Yu Gothic', YuGothic, 'ヒラギノ角ゴシック Pro',
+        'Hiragino Kaku Gothic Pro', メイリオ, Meiryo, Osaka, 'ＭＳ Ｐゴシック', 'MS PGothic',
+        sans-serif;
+    }
+    &__title {
+      margin-left: 8px;
+      font-weight: 600;
+      color: #fff;
+    }
+    &__content {
+      margin-left: 16px;
+    }
+  }
+}
+@media screen and (max-width: 768.98px) {
+  .content {
+    &__wrapper {
+      padding-top: 14vw;
+    }
+    &__inner {
+      width: 79vw;
+    }
+  }
+  .skill {
+    &__wrapper {
+      margin-bottom: 10vh;
+    }
+    &__icon {
+      width: 10vw;
+      height: 10vw;
+    }
+    &-text {
+      &__title {
+        font-size: 3.3vw;
+        margin-left: 8px;
+        font-weight: 600;
+        color: #fff;
+      }
+      &__content {
+        font-size: 2.9vw;
+      }
+    }
+  }
+}
+@media screen and (min-width: 769px) {
+  .content {
+    &__wrapper {
+      padding-top: 14vw;
+    }
+    &__inner {
+      width: 72vw;
+    }
+  }
+  .skill {
+    &__wrapper {
+      margin-bottom: 10vh;
+    }
+    &__icon {
+      width: 5vw;
+      height: 5vw;
+    }
+    &-text {
+      &__title {
+        font-size: 1.5vw;
+      }
+      &__content {
+        font-size: 1.1vw;
+      }
+    }
+  }
+}
+@media screen and (min-width: 1024px) {
+  .content {
+    &__wrapper {
+      padding: 11vw 0 0;
+      clear: both;
+    }
+  }
+}
 .overlay-green {
   position: fixed;
   bottom: 0;
@@ -128,162 +232,5 @@ onMounted(() => {
 .overlay-black-enter-from,
 .overlay-black-leave-to {
   height: 0;
-}
-.AppHeader-img {
-  width: 100vw;
-  position: fixed;
-  top: 0;
-  z-index: -2;
-}
-.skill-text-wrapper {
-  font-family: 游ゴシック体, 'Yu Gothic', YuGothic, 'ヒラギノ角ゴシック Pro',
-    'Hiragino Kaku Gothic Pro', メイリオ, Meiryo, Osaka, 'ＭＳ Ｐゴシック', 'MS PGothic', sans-serif;
-}
-@media screen and (max-width: 768.98px) {
-  .content {
-    margin: 74vw auto 0;
-    width: 100vw;
-    padding-top: 14vw;
-    background-color: #121212;
-  }
-  .content-inner {
-    width: 79vw;
-    margin: 0 auto;
-    padding-bottom: 18.7vw;
-    border-bottom: 1px solid #9c9c9b;
-  }
-  .skill-wrapper {
-    width: 100%;
-    display: flex;
-    margin-bottom: 10vh;
-  }
-  .skill-icon {
-    width: 10vw;
-  }
-  .skill-title {
-    font-size: 3.3vw;
-    margin-left: 8px;
-    font-weight: 600;
-    color: #fff;
-  }
-  .skill-content {
-    font-size: 2.9vw;
-    margin-left: 16px;
-  }
-  .page-title {
-    position: absolute;
-    top: 20vh;
-    left: 50vw;
-    width: 100%;
-    text-align: center;
-    transform: translate(-50%, -50%);
-    z-index: -2;
-    &-span {
-      display: block;
-      color: #fff;
-      font-weight: 900;
-      font-size: calc(1.5rem + 5vw);
-      line-height: 0.9em;
-      transform-origin: center left;
-    }
-  }
-}
-@media screen and (min-width: 769px) {
-  .content {
-    margin: 74vw auto 0;
-    width: 100vw;
-    padding-top: 14vw;
-    background-color: #121212;
-  }
-  .content-inner {
-    width: 72vw;
-    margin: 0 auto;
-    padding-bottom: 18.7vw;
-    border-bottom: 1px solid #9c9c9b;
-  }
-  .skill-wrapper {
-    width: 100%;
-    display: flex;
-    margin-bottom: 5vh;
-  }
-  .skill-icon {
-    width: 5vw;
-  }
-  .skill-title {
-    font-size: 1.5vw;
-    margin-left: 8px;
-    font-weight: 600;
-    color: #fff;
-  }
-  .skill-content {
-    font-size: 1.1vw;
-    margin-left: 16px;
-  }
-  .page-title {
-    position: absolute;
-    top: 30vh;
-    left: 50vw;
-    width: 100%;
-    text-align: center;
-    transform: translate(-50%, -50%);
-    z-index: -2;
-    &-span {
-      display: block;
-      color: #fff;
-      font-weight: 900;
-      font-size: calc(1.5rem + 5vw);
-      line-height: 0.9em;
-      transform-origin: center left;
-    }
-  }
-}
-@media screen and (min-width: 1024px) {
-  .content {
-    margin-top: 100vh;
-    clear: both;
-    margin-top: 100vh;
-    width: 100vw;
-    padding: 11vw 0 0;
-    background-color: #121212;
-    clear: both;
-  }
-  .page-title {
-    position: absolute;
-    top: 50vh;
-    left: 50vw;
-    width: 100%;
-    text-align: center;
-    transform: translate(-50%, -50%);
-    z-index: -2;
-    &-span {
-      display: block;
-      color: #fff;
-      font-weight: 900;
-      font-size: calc(1.5rem + 5vw);
-      line-height: 0.9em;
-      transform-origin: center left;
-    }
-  }
-}
-.AppFooter-wrapper {
-  width: 100vw;
-  height: 20vw;
-  display: block;
-  background-color: #121212;
-  position: relative;
-}
-.AppFooter-inner {
-  color: #fff;
-  font-size: 1.3vw;
-  font-family: 'PT Sans Narrow', sans-serif;
-  font-weight: bold;
-  letter-spacing: 0.5em;
-  display: inline-block;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  -webkit-transform: translate(-50%, -50%);
-  -ms-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
 }
 </style>
