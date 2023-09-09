@@ -121,13 +121,12 @@ const setFillHeight = () => {
   document.documentElement.style.setProperty('--vh', `${vh}px`)
 }
 
-// 画面のサイズ変動があった時に高さを再計算する
-window.addEventListener('resize', setFillHeight)
-
-// 初期化
-setFillHeight()
-
 onMounted(() => {
+  // 画面のサイズ変動があった時に高さを再計算する
+  window.addEventListener('resize', setFillHeight)
+
+  // 初期化
+  setFillHeight()
   isActiveOverlay.value = false
   show()
 })
@@ -198,8 +197,8 @@ onMounted(() => {
 
 <style scoped lang="scss">
 .home__wrapper {
-  min-height: 100vh; /* Fallback */
-  min-height: calc(var(--vh, 1vh) * 100);
+  height: 100vh; /* Fallback */
+  height: calc(var(--vh, 1vh) * 100);
   width: 100vw;
   overflow: hidden;
 }
@@ -236,11 +235,10 @@ onMounted(() => {
     &-left {
       position: absolute;
       left: 0;
-      width: 50.1%;
+      width: 50%;
       height: 100%;
       padding: 0;
       margin: 0;
-      min-width: 12.5rem;
       transform-origin: top;
       overflow: hidden;
       will-change: transform;
@@ -249,11 +247,10 @@ onMounted(() => {
       position: absolute;
       left: auto;
       right: 0;
-      width: 50.1%;
+      width: 50%;
       height: 100%;
       padding: 0;
       margin: 0;
-      min-width: 12.5rem;
       transform-origin: top;
       overflow: hidden;
       will-change: transform;
