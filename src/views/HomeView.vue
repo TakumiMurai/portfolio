@@ -116,6 +116,17 @@ const onclick = (pageName: string): void => {
   }, 1000)
 }
 
+const setFillHeight = () => {
+  const vh = window.innerHeight * 0.01
+  document.documentElement.style.setProperty('--vh', `${vh}px`)
+}
+
+// 画面のサイズ変動があった時に高さを再計算する
+window.addEventListener('resize', setFillHeight)
+
+// 初期化
+setFillHeight()
+
 onMounted(() => {
   isActiveOverlay.value = false
   show()
@@ -187,7 +198,8 @@ onMounted(() => {
 
 <style scoped lang="scss">
 .home__wrapper {
-  height: 100vh;
+  min-height: 100vh; /* Fallback */
+  min-height: calc(var(--vh, 1vh) * 100);
   width: 100vw;
   overflow: hidden;
 }
