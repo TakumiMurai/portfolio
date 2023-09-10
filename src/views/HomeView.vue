@@ -260,7 +260,7 @@ onMounted(() => {
 }
 .content__wrapper {
   position: relative;
-  height: 100vh;
+  height: 100dvh;
   width: 100vw;
 }
 .slide-letters {

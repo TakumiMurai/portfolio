@@ -75,7 +75,7 @@ onMounted(() => {
 .splash-screen {
   &__wrapper {
     width: 100vw;
-    height: 100vh;
+    height: 100dvh;
     position: relative;
   }
 }

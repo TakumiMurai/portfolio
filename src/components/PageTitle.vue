@@ -16,7 +16,7 @@ interface Props {
 .title {
   &__wrapper {
     position: relative;
-    height: min(100vh, 75vw);
+    height: min(100dvh, 75vw);
     width: 100%;
     text-align: center;
     z-index: -2;
