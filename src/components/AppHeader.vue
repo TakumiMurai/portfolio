@@ -30,6 +30,7 @@ const onClickHome = () => {
     font-weight: 700;
     color: #fff;
     font-size: 16px;
+    text-shadow: 1px 1px 2px #121212;
   }
 }
 </style>

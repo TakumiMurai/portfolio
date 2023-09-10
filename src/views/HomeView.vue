@@ -86,11 +86,9 @@ const onTouchMove = (event: TouchEvent) => {
     hide()
     if (deltaY > 0) {
       // 下にスワイプ
-      console.log('下にスワイプ')
       currentContentIndex.value = (currentContentIndex.value - 1 + totalContent) % totalContent
     } else {
       // 上にスワイプ
-      console.log('上にスワイプ')
       currentContentIndex.value = (currentContentIndex.value + 1) % totalContent
     }
     setTimeout(() => {
@@ -150,17 +148,18 @@ const intervalForEach = (callback: Function, array: Array<string>, intervalTime:
 }
 
 const handleClick = (index: number): void => {
-  if (canClick.value) {
-    canClick.value = false
-    hide()
-    currentContentIndex.value = index
-    setTimeout(() => {
-      show()
-      setTimeout(() => {
-        canClick.value = true
-      }, 1000)
-    }, 1000)
+  if (!canScroll.value) {
+    return
   }
+  canScroll.value = false
+  hide()
+  currentContentIndex.value = index
+  setTimeout(() => {
+    show()
+    setTimeout(() => {
+      canScroll.value = true
+    }, 1000)
+  }, 1000)
 }
 
 const onMouseOver = (): void => {
@@ -431,7 +430,7 @@ onMounted(() => {
 }
 .list-enter-active,
 .list-leave-active {
-  transition: all 0.5s;
+  transition: all 0.5s 0.3s;
 }
 
 .list-enter-from {

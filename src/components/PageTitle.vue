@@ -31,6 +31,7 @@ interface Props {
     font-weight: 900;
     font-size: calc(1.5rem + 5vw);
     line-height: 0.9em;
+    text-shadow: 3px 3px 2px #121212;
   }
 }
 </style>
