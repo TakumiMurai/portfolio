@@ -26,20 +26,72 @@ const pageContents: Ref<Array<{ title: string; pageName: string; src: string }>>
   }
 ])
 const isMouseOver: Ref<boolean> = ref(false)
-const canClick: Ref<boolean> = ref(true)
 const canScroll: Ref<boolean> = ref(true)
 const isActiveOverlay: Ref<boolean> = ref(true)
+const touchStartX: Ref<number | null> = ref(null)
+const touchStartY: Ref<number | null> = ref(null)
 
 // マウスホイール動作時のイベント
 const handleWheel = (event: WheelEvent): void => {
-  if (canScroll.value) {
+  if (!canScroll.value) {
+    return
+  }
+  canScroll.value = false
+  const totalContent: number = pageContents.value.length
+  hide()
+  if (event.deltaY > 0) {
+    currentContentIndex.value = (currentContentIndex.value + 1) % totalContent
+  } else {
+    currentContentIndex.value = (currentContentIndex.value - 1 + totalContent) % totalContent
+  }
+  setTimeout(() => {
+    show()
+    setTimeout(() => {
+      canScroll.value = true
+    }, 1000)
+  }, 1000)
+}
+
+const onTouchStart = (event: TouchEvent): void => {
+  touchStartX.value = event.touches[0].clientX
+  touchStartY.value = event.touches[0].clientY
+}
+
+const onTouchMove = (event: TouchEvent) => {
+  if (touchStartX.value === null || touchStartY.value === null) {
+    return
+  }
+
+  if (!canScroll.value) {
+    return
+  }
+
+  const currentX = event.touches[0].clientX
+  const currentY = event.touches[0].clientY
+
+  const deltaX = currentX - touchStartX.value
+  const deltaY = currentY - touchStartY.value
+
+  if (Math.abs(deltaX) > Math.abs(deltaY)) {
+    if (deltaX > 0) {
+      // 右にスワイプ
+      return
+    } else {
+      // 左にスワイプ
+      return
+    }
+  } else {
     canScroll.value = false
     const totalContent: number = pageContents.value.length
     hide()
-    if (event.deltaY > 0) {
-      currentContentIndex.value = (currentContentIndex.value + 1) % totalContent
-    } else {
+    if (deltaY > 0) {
+      // 下にスワイプ
+      console.log('下にスワイプ')
       currentContentIndex.value = (currentContentIndex.value - 1 + totalContent) % totalContent
+    } else {
+      // 上にスワイプ
+      console.log('上にスワイプ')
+      currentContentIndex.value = (currentContentIndex.value + 1) % totalContent
     }
     setTimeout(() => {
       show()
@@ -48,6 +100,16 @@ const handleWheel = (event: WheelEvent): void => {
       }, 1000)
     }, 1000)
   }
+
+  // タッチ開始位置をリセット
+  touchStartX.value = null
+  touchStartY.value = null
+}
+
+const onTouchEnd = (): void => {
+  // タッチ開始位置をリセット
+  touchStartX.value = null
+  touchStartY.value = null
 }
 
 const show = (): void => {
@@ -116,17 +178,7 @@ const onclick = (pageName: string): void => {
   }, 1000)
 }
 
-const setFillHeight = () => {
-  const vh = window.innerHeight * 0.01
-  document.documentElement.style.setProperty('--vh', `${vh}px`)
-}
-
 onMounted(() => {
-  // 画面のサイズ変動があった時に高さを再計算する
-  window.addEventListener('resize', setFillHeight)
-
-  // 初期化
-  setFillHeight()
   isActiveOverlay.value = false
   show()
 })
@@ -140,7 +192,12 @@ onMounted(() => {
     <transition name="overlay-black">
       <div class="overlay-black" v-if="isActiveOverlay"></div>
     </transition>
-    <div @wheel="handleWheel">
+    <div
+      @wheel="handleWheel"
+      @touchstart="onTouchStart"
+      @touchmove="onTouchMove"
+      @touchend="onTouchEnd"
+    >
       <SideNavigator
         :pageContents="pageContents"
         :currentContentIndex="currentContentIndex"
@@ -197,8 +254,7 @@ onMounted(() => {
 
 <style scoped lang="scss">
 .home__wrapper {
-  height: 100vh; /* Fallback */
-  height: calc(var(--vh, 1vh) * 100);
+  height: 100dvh;
   width: 100vw;
   overflow: hidden;
 }
