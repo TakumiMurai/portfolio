@@ -257,11 +257,14 @@ onMounted(() => {
   width: 100vw;
   overflow: hidden;
   overscroll-behavior: none;
+  touch-action: none;
 }
 .content__wrapper {
   position: relative;
   height: 100dvh;
   width: 100vw;
+  overscroll-behavior: none;
+  touch-action: none;
 }
 .slide-letters {
   &__wrapper {

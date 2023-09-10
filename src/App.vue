@@ -22,20 +22,12 @@ html,
 body,
 a {
   overscroll-behavior: none;
+  touch-action: none;
   overflow: hidden;
   background-color: #121212;
 }
 
 ul {
   list-style-type: none;
-}
-
-.expand-enter-active,
-.expand-leave-active {
-  transition: transform 0.5s ease-in-out, background-color 0.5s ease-in-out;
-}
-.expand-enter, .expand-leave-to /* .expand-leave-active in <2.1.8 */ {
-  transform: translateY(100%);
-  background-color: #121212;
 }
 </style>
