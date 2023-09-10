@@ -21,8 +21,6 @@ onMounted(() => {
 html,
 body,
 a {
-  overscroll-behavior: none;
-  touch-action: none;
   overflow: hidden;
   background-color: #121212;
 }

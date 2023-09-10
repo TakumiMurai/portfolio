@@ -45,6 +45,7 @@ const handleClick = (index: number): void => {
 }
 .side-navigator {
   &__inner {
+    cursor: pointer;
     display: flex;
     width: 100%;
     align-items: center;

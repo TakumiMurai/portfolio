@@ -24,6 +24,7 @@ const onClickHome = () => {
     z-index: 1;
   }
   &__left {
+    cursor: pointer;
     font-family: Montserrat, sans-serif;
     font-weight: 700;
     color: #fff;
@@ -37,7 +38,7 @@ const onClickHome = () => {
     left: 1rem;
   }
 }
-@media screen and (max-width: 769px) {
+@media screen and (min-width: 769px) {
   .header__wrapper {
     top: 3rem;
     left: 3rem;
