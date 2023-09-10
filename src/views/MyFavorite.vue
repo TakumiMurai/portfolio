@@ -133,6 +133,8 @@ ul {
     font-weight: 900;
     font-size: calc(1.3rem + 4vw);
     color: #121212;
+    -webkit-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
     top: 50vh;
     left: 50vw;

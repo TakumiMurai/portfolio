@@ -276,7 +276,7 @@ onMounted(() => {
     font-weight: 900;
     font-size: calc(1.3rem + 4vw);
     height: calc(1.3rem + 4vw);
-    line-height: 0.7;
+    line-height: 0.8;
     color: #fff;
     margin: 0;
     white-space: pre;
