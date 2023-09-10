@@ -17,8 +17,6 @@ const onClickHome = () => {
 <style lang="scss">
 .header {
   &__wrapper {
-    top: 3rem;
-    left: 3rem;
     width: calc(100vw - 6rem);
     position: fixed;
     display: flex;
@@ -31,6 +29,18 @@ const onClickHome = () => {
     color: #fff;
     font-size: 16px;
     text-shadow: 1px 1px 2px #121212;
+  }
+}
+@media screen and (max-width: 768.98px) {
+  .header__wrapper {
+    top: 1rem;
+    left: 1rem;
+  }
+}
+@media screen and (max-width: 769px) {
+  .header__wrapper {
+    top: 3rem;
+    left: 3rem;
   }
 }
 </style>

@@ -256,6 +256,7 @@ onMounted(() => {
   height: 100dvh;
   width: 100vw;
   overflow: hidden;
+  overscroll-behavior: none;
 }
 .content__wrapper {
   position: relative;

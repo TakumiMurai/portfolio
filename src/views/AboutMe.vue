@@ -2,14 +2,40 @@
 import { ref, onMounted } from 'vue'
 import type { Ref } from 'vue/dist/vue.js'
 import FadeInAnimation from '@/components/FadeInAnimation.vue'
+import SideNavigator from '@/components/SideNavigator.vue'
 import AppHeader from '@/components/AppHeader.vue'
 import AppFooter from '@/components/AppFooter.vue'
 import PageTitle from '@/components/PageTitle.vue'
 import aboutMePicture from '@/assets/about-me.jpg'
+import router from '@/router'
 
 const PAGE_TITLE: string = 'ABOUT ME'
+const PAGE_INDEX: number = 0
 
 const isActiveOverlay: Ref<boolean> = ref(true)
+const pageContents: Ref<Array<{ title: string; pageName: string; src: string }>> = ref([
+  {
+    title: 'ABOUT ME',
+    pageName: 'aboutMe',
+    src: ''
+  },
+  { title: 'MY SKILLS', pageName: 'mySkills', src: '' },
+  {
+    title: 'MY FAVORITE',
+    pageName: 'myFavorite',
+    src: ''
+  }
+])
+
+const handleClick = (index: number): void => {
+  if (index === PAGE_INDEX) {
+    return
+  }
+  isActiveOverlay.value = true
+  setTimeout(() => {
+    router.push(pageContents.value[index].pageName)
+  }, 1000)
+}
 
 const onClick = (): void => {
   isActiveOverlay.value = true
@@ -22,6 +48,11 @@ onMounted(() => {
 
 <template>
   <AppHeader @click="onClick"></AppHeader>
+  <SideNavigator
+    :pageContents="pageContents"
+    :currentContentIndex="PAGE_INDEX"
+    @onClickNavigator="handleClick"
+  ></SideNavigator>
   <transition name="overlay-green">
     <div class="overlay-green" v-if="isActiveOverlay"></div>
   </transition>

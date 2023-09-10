@@ -36,10 +36,11 @@ const handleClick = (index: number): void => {
 }
 @media screen and (min-width: 769px) {
   .side-navigator__wrapper {
-    position: absolute;
-    z-index: 1000;
+    position: fixed;
+    z-index: 1;
     top: 50vh;
     right: 0;
+    transform: translateY(-50%);
   }
 }
 .side-navigator {
@@ -50,6 +51,7 @@ const handleClick = (index: number): void => {
     padding: 1rem 0;
     opacity: 0.25;
     transition: opacity 1s ease-in-out;
+    text-shadow: 1px 1px 2px #121212;
     &--active {
       opacity: 1;
     }
