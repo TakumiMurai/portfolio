@@ -2,31 +2,30 @@
 import { ref, onMounted } from 'vue'
 import type { Ref } from 'vue/dist/vue.js'
 
-const firstText: Ref<string> = ref('TAKUMI MURAI') // 表示するテキスト
-const secondText: Ref<string> = ref('FRONTEND ENGINEER') // 二行目のテキスト
+const firstText: Ref<string> = ref('TAKUMI MURAI') // 最初に表示するテキスト
+const secondText: Ref<string> = ref('FRONTEND ENGINEER') // 2番目に表示するテキスト
 const transitionLetters: Ref<Array<string>> = ref([])
-const LETTER_ANIMATION_INTERVAL_TIME: number = 20
+const LETTER_ANIMATION_INTERVAL_TIME: number = 20 // 文字アニメーションの間隔(ms)
 
+// 文字表示
 const show = (text: string): void => {
   const letters = text.split('')
-
   const callback = (letter: string) => {
     transitionLetters.value.push(letter)
   }
-
   intervalForEach(callback, letters, LETTER_ANIMATION_INTERVAL_TIME)
 }
 
+// 文字非表示
 const hide = (text: string): void => {
   const letters = text.split('')
-
   const callback = () => {
     transitionLetters.value.pop()
   }
-
   intervalForEach(callback, letters, LETTER_ANIMATION_INTERVAL_TIME)
 }
 
+// 配列の要素全てに一定間隔でコールバック実行
 const intervalForEach = (callback: Function, array: Array<string>, intervalTime: number): void => {
   const length = array.length
   let index = 0
@@ -75,7 +74,7 @@ onMounted(() => {
 .splash-screen {
   &__wrapper {
     width: 100vw;
-    height: 100vh;
+    height: 100vh; // フォールバック
     height: 100dvh;
     position: relative;
   }
@@ -105,7 +104,7 @@ onMounted(() => {
 }
 .list-enter-active,
 .list-leave-active {
-  transition: all 0.5s 0.3s;
+  transition: transform 0.5s 0.3s;
 }
 .list-enter-from {
   transform: translateY(calc(1.3rem + 4vw));

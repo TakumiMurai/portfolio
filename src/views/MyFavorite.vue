@@ -7,6 +7,7 @@ import SideNavigator from '@/components/SideNavigator.vue'
 import AppHeader from '@/components/AppHeader.vue'
 import AppFooter from '@/components/AppFooter.vue'
 import PageTitle from '@/components/PageTitle.vue'
+import TransitionScreen from '@/components/TransitionScreen.vue'
 import myFavoritePicture from '@/assets/my-favorite.jpg'
 import animeImage from '@/assets/anime.jpg'
 import comicImage from '@/assets/comic.jpg'
@@ -17,7 +18,6 @@ import router from '@/router'
 
 const PAGE_TITLE: string = 'MY FAVORITE'
 const PAGE_INDEX: number = 2
-const isActiveOverlay: Ref<boolean> = ref(true)
 
 const captionImages: Ref<{ id: string; src: string; caption: string }[]> = ref([
   {
@@ -47,7 +47,6 @@ const captionImages: Ref<{ id: string; src: string; caption: string }[]> = ref([
     caption: '食べ物、特にラーメンが好きです。画像は近所のよく行くラーメン屋です。'
   }
 ])
-
 const pageContents: Ref<Array<{ title: string; pageName: string; src: string }>> = ref([
   {
     title: 'ABOUT ME',
@@ -61,38 +60,34 @@ const pageContents: Ref<Array<{ title: string; pageName: string; src: string }>>
     src: ''
   }
 ])
+const transitionScreen = ref<InstanceType<typeof TransitionScreen> | null>(null)
 
-const handleClick = (index: number): void => {
+const onClickNavigator = (index: number): void => {
   if (index === PAGE_INDEX) {
     return
   }
-  isActiveOverlay.value = true
+  transitionScreen.value?.showOverlay()
   setTimeout(() => {
     router.push(pageContents.value[index].pageName)
   }, 1000)
 }
 
-const onClick = () => {
-  isActiveOverlay.value = true
+const onClickHeader = () => {
+  transitionScreen.value?.showOverlay()
 }
 
 onMounted(() => {
-  isActiveOverlay.value = false
+  transitionScreen.value?.hideOverlay()
 })
 </script>
 <template>
-  <AppHeader @click="onClick"></AppHeader>
+  <AppHeader @click="onClickHeader"></AppHeader>
   <SideNavigator
     :pageContents="pageContents"
     :currentContentIndex="PAGE_INDEX"
-    @onClickNavigator="handleClick"
+    @onClickNavigator="onClickNavigator"
   ></SideNavigator>
-  <transition name="overlay-green">
-    <div class="overlay-green" v-if="isActiveOverlay"></div>
-  </transition>
-  <transition name="overlay-black">
-    <div class="overlay-black" v-if="isActiveOverlay"></div>
-  </transition>
+  <TransitionScreen ref="transitionScreen"></TransitionScreen>
   <img :src="myFavoritePicture" class="key-visual" />
   <PageTitle :title="PAGE_TITLE"></PageTitle>
   <div class="content__wrapper">
@@ -231,43 +226,5 @@ ul {
       top: 50vh;
     }
   }
-}
-.overlay-green {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: #47ba87;
-  z-index: 2;
-}
-.overlay-green-enter-active {
-  transition: all 0.5s ease;
-}
-.overlay-green-leave-active {
-  transition: all 0.5s ease 0.1s;
-}
-.overlay-green-enter-from,
-.overlay-green-leave-to {
-  height: 0;
-}
-.overlay-black {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: #121212;
-  z-index: 2;
-}
-.overlay-black-enter-active {
-  transition: all 0.5s ease 0.1s;
-}
-.overlay-black-leave-active {
-  transition: all 0.5s ease;
-}
-.overlay-black-enter-from,
-.overlay-black-leave-to {
-  height: 0;
 }
 </style>

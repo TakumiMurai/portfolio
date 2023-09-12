@@ -1,6 +1,10 @@
+<script setup lang="ts">
+import constant from '@/consts/const.js'
+</script>
+
 <template>
   <footer class="footer__wrapper">
-    <div class="footer__inner">TAKUMI MURAI</div>
+    <div class="footer__inner">{{ constant.AUTHOR_NAME }}</div>
   </footer>
 </template>
 

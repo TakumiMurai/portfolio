@@ -2,12 +2,15 @@
 import { ref, onMounted } from 'vue'
 import type { Ref } from 'vue/dist/vue.js'
 import SideNavigator from '@/components/SideNavigator.vue'
+import TransitionScreen from '@/components/TransitionScreen.vue'
 import router from '@/router'
 import aboutMePicture from '@/assets/about-me.jpg'
 import mySkillsPicture from '@/assets/my-skills.jpg'
 import myFavoritePicture from '@/assets/my-favorite.jpg'
 
-const LETTER_ANIMATION_INTERVAL_TIME: number = 20
+const LETTER_ANIMATION_INTERVAL_TIME = 20
+const IMAGE_TRANS_VECTOR_UP = 'up'
+const IMAGE_TRANS_VECTOR_DOWN = 'down'
 
 // 表示するページのインデックス
 const currentContentIndex: Ref<number> = ref(0)
@@ -27,9 +30,10 @@ const pageContents: Ref<Array<{ title: string; pageName: string; src: string }>>
 ])
 const isMouseOver: Ref<boolean> = ref(false)
 const canScroll: Ref<boolean> = ref(true)
-const isActiveOverlay: Ref<boolean> = ref(true)
 const touchStartX: Ref<number | null> = ref(null)
 const touchStartY: Ref<number | null> = ref(null)
+const transVector: Ref<'up' | 'down'> = ref('up')
+const transitionScreen = ref<InstanceType<typeof TransitionScreen> | null>(null)
 
 // マウスホイール動作時のイベント
 const handleWheel = (event: WheelEvent): void => {
@@ -40,8 +44,10 @@ const handleWheel = (event: WheelEvent): void => {
   const totalContent: number = pageContents.value.length
   hide()
   if (event.deltaY > 0) {
+    transVector.value = IMAGE_TRANS_VECTOR_UP
     currentContentIndex.value = (currentContentIndex.value + 1) % totalContent
   } else {
+    transVector.value = IMAGE_TRANS_VECTOR_DOWN
     currentContentIndex.value = (currentContentIndex.value - 1 + totalContent) % totalContent
   }
   setTimeout(() => {
@@ -52,11 +58,13 @@ const handleWheel = (event: WheelEvent): void => {
   }, 1000)
 }
 
+// 画面タップ時のイベント（SP）
 const onTouchStart = (event: TouchEvent): void => {
   touchStartX.value = event.touches[0].clientX
   touchStartY.value = event.touches[0].clientY
 }
 
+// 画面スワイプ時のイベント
 const onTouchMove = (event: TouchEvent) => {
   if (touchStartX.value === null || touchStartY.value === null) {
     return
@@ -66,9 +74,11 @@ const onTouchMove = (event: TouchEvent) => {
     return
   }
 
+  // タッチ開始位置の取得
   const currentX = event.touches[0].clientX
   const currentY = event.touches[0].clientY
 
+  // スワイプ後の位置の取得
   const deltaX = currentX - touchStartX.value
   const deltaY = currentY - touchStartY.value
 
@@ -86,9 +96,11 @@ const onTouchMove = (event: TouchEvent) => {
     hide()
     if (deltaY > 0) {
       // 下にスワイプ
+      transVector.value = IMAGE_TRANS_VECTOR_DOWN
       currentContentIndex.value = (currentContentIndex.value - 1 + totalContent) % totalContent
     } else {
       // 上にスワイプ
+      transVector.value = IMAGE_TRANS_VECTOR_UP
       currentContentIndex.value = (currentContentIndex.value + 1) % totalContent
     }
     setTimeout(() => {
@@ -104,12 +116,14 @@ const onTouchMove = (event: TouchEvent) => {
   touchStartY.value = null
 }
 
+// タッチ終了時のイベント
 const onTouchEnd = (): void => {
   // タッチ開始位置をリセット
   touchStartX.value = null
   touchStartY.value = null
 }
 
+// ページ名の表示
 const show = (): void => {
   const text = pageContents.value[currentContentIndex.value].title
 
@@ -121,6 +135,7 @@ const show = (): void => {
   intervalForEach(callback, letters, LETTER_ANIMATION_INTERVAL_TIME)
 }
 
+// ページ名の非表示
 const hide = (): void => {
   const text = pageContents.value[currentContentIndex.value].title
   const letters = text.split('')
@@ -132,6 +147,7 @@ const hide = (): void => {
   intervalForEach(callback, letters, LETTER_ANIMATION_INTERVAL_TIME)
 }
 
+// 配列の要素全てに一定間隔でコールバック実行
 const intervalForEach = (callback: Function, array: Array<string>, intervalTime: number): void => {
   const length = array.length
 
@@ -147,13 +163,20 @@ const intervalForEach = (callback: Function, array: Array<string>, intervalTime:
   }, intervalTime)
 }
 
+// サイドナビゲータークリック時のイベント
 const handleClick = (index: number): void => {
   if (!canScroll.value) {
     return
   }
   canScroll.value = false
   hide()
-  currentContentIndex.value = index
+  if (currentContentIndex.value < index) {
+    transVector.value = IMAGE_TRANS_VECTOR_UP
+    currentContentIndex.value = index
+  } else {
+    transVector.value = IMAGE_TRANS_VECTOR_DOWN
+    currentContentIndex.value = index
+  }
   setTimeout(() => {
     show()
     setTimeout(() => {
@@ -162,35 +185,37 @@ const handleClick = (index: number): void => {
   }, 1000)
 }
 
+// マウスホバー時
 const onMouseOver = (): void => {
   isMouseOver.value = true
 }
 
+// マウスホバー解除時
 const onMouseLeave = (): void => {
   isMouseOver.value = false
 }
 
-const onclick = (pageName: string): void => {
-  isActiveOverlay.value = true
+// 画像クリック時イベント
+const onClickImage = (pageName: string): void => {
+  // 遷移アニメーションを表示
+  transitionScreen.value?.showOverlay()
   setTimeout(() => {
     router.push(pageName)
   }, 1000)
 }
 
 onMounted(() => {
-  isActiveOverlay.value = false
+  // 遷移アニメーションを非表示
+  transitionScreen.value?.hideOverlay()
+
+  // ページ名を表示
   show()
 })
 </script>
 
 <template>
   <div class="home__wrapper">
-    <transition name="overlay-green">
-      <div class="overlay-green" v-if="isActiveOverlay"></div>
-    </transition>
-    <transition name="overlay-black">
-      <div class="overlay-black" v-if="isActiveOverlay"></div>
-    </transition>
+    <TransitionScreen ref="transitionScreen"></TransitionScreen>
     <div
       @wheel="handleWheel"
       @touchstart="onTouchStart"
@@ -209,7 +234,7 @@ onMounted(() => {
         :key="pageContent.title"
       >
         <div class="slide-letters__wrapper">
-          <transition-group name="list">
+          <transition-group :name="`list-${transVector}`">
             <div v-for="letter in char" :key="letter" class="slide-letters__inner">
               {{ letter }}
             </div>
@@ -220,10 +245,10 @@ onMounted(() => {
         class="image__wrapper-all"
         @mouseover="onMouseOver"
         @mouseleave="onMouseLeave"
-        @click="onclick(pageContents[currentContentIndex].pageName)"
+        @click="onClickImage(pageContents[currentContentIndex].pageName)"
       >
         <div class="image__wrapper-left">
-          <transition-group name="slide">
+          <transition-group :name="`slide-${transVector}`">
             <div
               v-for="(pageContent, index) in pageContents"
               :key="pageContent.src"
@@ -235,7 +260,7 @@ onMounted(() => {
           </transition-group>
         </div>
         <div class="image__wrapper-right">
-          <transition-group name="slide-delay">
+          <transition-group :name="`slide-${transVector}-delay`">
             <div
               v-for="(pageContent, index) in pageContents"
               :key="pageContent.title"
@@ -253,7 +278,7 @@ onMounted(() => {
 
 <style scoped lang="scss">
 .home__wrapper {
-  height: 100vh;
+  height: 100vh; // フォールバック
   height: 100dvh;
   width: 100vw;
   overflow: hidden;
@@ -261,7 +286,7 @@ onMounted(() => {
 }
 .content__wrapper {
   position: relative;
-  height: 100vh;
+  height: 100vh; // フォールバック
   height: 100dvh;
   width: 100vw;
 }
@@ -320,7 +345,7 @@ onMounted(() => {
       position: absolute;
       left: 0;
       background-size: cover;
-      transition: all 0.4s;
+      transition: transform 0.4s;
       will-change: transform;
     }
     &-right {
@@ -329,7 +354,7 @@ onMounted(() => {
       left: auto;
       right: 0;
       background-size: cover;
-      transition: all 0.4s;
+      transition: transform 0.4s;
       will-change: transform;
     }
   }
@@ -416,6 +441,7 @@ onMounted(() => {
         background-position: 50%;
         transform: translateY(-50px);
         background-position: 50%;
+        transition: background-position 0.3s ease;
         &--active {
           background-position: center 50px;
         }
@@ -425,6 +451,7 @@ onMounted(() => {
         height: 100%;
         transform: translateY(50px);
         background-position: 50%;
+        transition: background-position 0.3s ease;
         &--active {
           background-position: center -50px;
         }
@@ -432,77 +459,64 @@ onMounted(() => {
     }
   }
 }
-.list-enter-active,
-.list-leave-active {
-  transition: all 0.5s 0.3s;
+// ページ名のトランジション
+.list-up-enter-active,
+.list-up-leave-active,
+.list-down-enter-active,
+.list-down-leave-active {
+  transition: transform 0.5s 0.3s;
 }
-
-.list-enter-from {
+.list-up-enter-from {
   transform: translateY(calc(1.3rem + 4vw));
 }
-.list-leave-to {
+.list-up-leave-to {
   transform: translateY(calc(-1.3rem - 4vw));
 }
-.overlay-green {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: #47ba87;
-  z-index: 2;
+.list-down-enter-from {
+  transform: translateY(calc(-1.3rem - 4vw));
 }
-.overlay-green-enter-active {
-  transition: all 0.5s ease;
+.list-down-leave-to {
+  transform: translateY(calc(1.3rem + 4vw));
 }
-.overlay-green-leave-active {
-  transition: all 0.5s ease 0.1s;
-}
-.overlay-green-enter-from,
-.overlay-green-leave-to {
-  height: 0;
-}
-.overlay-black {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: #121212;
-  z-index: 2;
-}
-.overlay-black-enter-active {
-  transition: all 0.5s ease 0.1s;
-}
-.overlay-black-leave-active {
-  transition: all 0.5s ease;
-}
-.overlay-black-enter-from,
-.overlay-black-leave-to {
-  height: 0;
-}
-.slide-enter-active {
+// 画像スライドのトランジション
+.slide-up-enter-active,
+.slide-down-enter-active {
   transition: transform 0.5s cubic-bezier(0.5, 0, 0.75, 0) 1s;
 }
-.slide-leave-active {
+.slide-up-leave-active,
+.slide-down-leave-active {
   transition: transform 0.5s cubic-bezier(0.5, 0, 0.75, 0);
 }
-.slide-enter-from {
+.slide-up-enter-from {
   transform: translateY(100%);
 }
-.slide-leave-to {
+.slide-up-leave-to {
   transform: translateY(-100%);
 }
-.slide-delay-enter-active {
+.slide-down-enter-from {
+  transform: translateY(-100%);
+}
+.slide-down-leave-to {
+  transform: translateY(100%);
+}
+.slide-up-delay-enter-active,
+.slide-down-delay-enter-active {
   transition: transform 0.5s cubic-bezier(0.5, 0, 0.75, 0) 1.1s;
 }
-.slide-delay-leave-active {
+.slide-up-delay-leave-active,
+.slide-down-delay-leave-active {
   transition: transform 0.5s cubic-bezier(0.5, 0, 0.75, 0) 0.1s;
 }
-.slide-delay-enter-from {
+.slide-up-delay-enter-from {
   transform: translateY(100%);
 }
-.slide-delay-leave-to {
+.slide-up-delay-leave-to {
   transform: translateY(-100%);
+}
+.slide-down-delay-enter-from {
+  transform: translateY(-100%);
+}
+.slide-down-delay-leave-to {
+  transform: translateY(100%);
 }
 </style>
